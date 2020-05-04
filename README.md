@@ -1,4 +1,4 @@
-This is just the beginnings of a javascript library that can be used to set up a WebSocket server with a simple HTTP server.
+This is just the beginnings of a javascript library that can be used to set up a WebSocket server with all the WebSocket and HTTP handling done in pure javascript.
 
 The idea is to build a pure javascript socket handler that only requires simple read and write functionallity.
 Since all socket handling is done in javascript, code using this library would be easier to implement in multiple environments since it only requires access to javascript callbacks.
