@@ -1,7 +1,7 @@
 const net = require('net');
 const { createHash } = require('crypto');
 const Request = require('./http-parser.js');
-const body = require('fs').readFileSync('../teleprompter-test/head.html').toString();
+const body = "<!DOCTYPE html><html><body><h1>This is a webpage served by javascript</h1></body></html>";
 Request.hashWebSocketKey = function (str) {
 	return createHash('sha1').update(str).digest('base64');
 };
