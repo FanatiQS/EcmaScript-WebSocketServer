@@ -68,4 +68,9 @@ Request.prototype.parse = function (chunk) {
 	this.buffer = chunk.slice(index);
 };
 
+// Gets clean value of specified header
+Request.prototype.getHeader = function (header) {
+	return this.headers[header].trim();
+};
+
 module.exports = Request;
