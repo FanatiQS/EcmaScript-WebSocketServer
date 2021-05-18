@@ -57,7 +57,7 @@ function makeWebSocketUpgradeResponse(req, makeAccept) {
 	return "HTTP/1.1 101 Switching Protocols\r\n" +
 		"Connection: Upgrade\r\n" +
 		"Upgrade: websocket\r\n" +
-		"sec-WebSocket-Accept: " +
+		"Sec-WebSocket-Accept: " +
 		makeAccept(
 			req.headers['sec-websocket-key'] +
 			"258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
