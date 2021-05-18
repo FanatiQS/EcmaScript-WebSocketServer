@@ -3,7 +3,7 @@ const {
 	makeWebSocketUpgradeResponse,
 	getWebSocketOpCode,
 	opCodes,
-	getWebSocketPayload,
+	getWebSocketTextPayload,
 	makeWebSocketCloseFrame,
 	bufferToString,
 	makeWebSocketTextFrame,
@@ -70,7 +70,7 @@ const server = net.createServer((socket) => {
 		else {
 			switch(getWebSocketOpCode(data)) {
 				case opCodes.text: {
-					const msg = bufferToString(getWebSocketPayload(data))
+					const msg = getWebSocketTextPayload(data);
 					console.log('data', msg);
 					// if (msg === 'close') {
 					// 	socket.write(makeWebSocketCloseFrame());
@@ -85,13 +85,13 @@ const server = net.createServer((socket) => {
 					break;
 				}
 				case opCodes.close: {
-					console.log('close', getWebSocketPayload(data));
+					console.log('close', data, getWebSocketTextPayload(data));
 					socket.end((state === 1) ? makeWebSocketCloseFrame() : undefined); // Respond with close frame if it was initiated by the client
 					state = 3;
 					break;
 				}
 				case opCodes.pong: {
-					console.log('pong', getWebSocketPayload(data));
+					console.log('pong', getWebSocketTextPayload(data));
 					break;
 				}
 				default: {
