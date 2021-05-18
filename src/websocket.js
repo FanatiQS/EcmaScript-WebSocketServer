@@ -132,7 +132,26 @@ function getWebSocketTextPayload(buffer) {
 
 	// Unmasks payload to string
 	return getUnmaskedText(buffer, len, offset);
+}
 
+/**
+ * Gets the close status code for the connection
+ * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
+ * @returns {number} The status code received from the client
+ */
+function getWebSocketCloseCode(buffer) {
+	return ((buffer[6] ^ buffer[2]) << 8) + buffer[7] ^ buffer[3];
+}
+
+/**
+ * Gets the close reason in plain text for the connection
+ * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
+ * @returns {string} Unmasked payload as a string
+ */
+function getWebSocketCloseReason(buffer) {
+	const len = buffer[1] & 0x7F;
+	if (len >= 126) throw new Error("Close frames have a maximum payload of 125 bytes");
+	return getUnmaskedText(buffer, len, 4);
 }
 
 // Creates WebSocket length bytes for payload
@@ -191,3 +210,5 @@ exports.getWebSocketTextPayload = getWebSocketTextPayload;
 exports.makeWebSocketCloseFrame = makeWebSocketCloseFrame;
 exports.makeWebSocketTextFrame = makeWebSocketTextFrame;
 exports.makeWebSocketPingFrame = makeWebSocketPingFrame;
+exports.getWebSocketCloseCode = getWebSocketCloseCode;
+exports.getWebSocketCloseReason = getWebSocketCloseReason;

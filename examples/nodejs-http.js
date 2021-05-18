@@ -7,7 +7,8 @@ const {
 	makeWebSocketCloseFrame,
 	bufferToString,
 	makeWebSocketTextFrame,
-	makeWebSocketPingFrame
+	makeWebSocketPingFrame,
+	getWebSocketCloseCode
 } = require('../src/index.js');
 
 const http = require('http');

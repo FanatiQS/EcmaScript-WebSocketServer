@@ -10,7 +10,8 @@ const {
 	makeWebSocketPingFrame,
 	parseHttp,
 	makeHttpHtmlResponse,
-	makeHttp404Response
+	makeHttp404Response,
+	getWebSocketCloseCode
 } = require('../src/index.js');
 
 const net = require('net');
@@ -43,7 +44,7 @@ const server = net.createServer((socket) => {
 						ws.onopen = function () {
 							ws.send('123456');
 							setTimeout(() => {
-								// ws.close();
+								ws.close(1000);
 							}, 100);
 						};
 						ws.onmessage = function (event) {
@@ -86,6 +87,7 @@ const server = net.createServer((socket) => {
 				}
 				case opCodes.close: {
 					console.log('close', data, getWebSocketTextPayload(data));
+					console.log('data', getWebSocketCloseCode(data));
 					socket.end((state === 1) ? makeWebSocketCloseFrame() : undefined); // Respond with close frame if it was initiated by the client
 					state = 3;
 					break;
