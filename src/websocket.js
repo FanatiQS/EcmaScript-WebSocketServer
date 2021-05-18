@@ -100,13 +100,21 @@ const opCodes = {
 	pong: 0x0A
 };
 
+// Unmaskes payload from a client to a string
+function getUnmaskedText(buffer, len, offset) {
+	let unmasked = '';
+	for (let i = 0; i < len; i++) {
+		unmasked += String.fromCharCode(buffer[i + 4 + offset] ^ buffer[i % 4 + offset]);
+	}
+	return unmasked;
+}
+
 /**
  * Gets the payload from a WebSocket frame
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
- * @returns {ArrayBuffer} Unmasked payload
- * @todo Do some benchmarks on if it is faster to return a buffer or a string
+ * @returns {string} Unmasked payload as a string
  */
-function getWebSocketPayload(buffer) {
+function getWebSocketTextPayload(buffer) {
 	// Gets payload length
 	let len = buffer[1] & 0x7F;
 	let offset = 2;
@@ -122,13 +130,9 @@ function getWebSocketPayload(buffer) {
 		offset = 10;
 	}
 
-	// Unmasks payload from client
-	const unmasked = new Uint8Array(len);
-	for (let i = 0; i < len; i++) {
-		unmasked[i] = buffer[i + 4 + offset] ^ buffer[i % 4 + offset];
-	}
+	// Unmasks payload to string
+	return getUnmaskedText(buffer, len, offset);
 
-	return unmasked;
 }
 
 // Creates WebSocket length bytes for payload
