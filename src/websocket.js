@@ -15,7 +15,7 @@ function isWebSocketUpgrade(req) {
 		typeof req.headers.upgrade !== 'string' ||
 		req.headers.upgrade.toLowerCase() !== 'websocket'
 	) return false;
-	
+
 	// Spec only allows get requests for upgrade
 	if (typeof req.method !== 'string' || req.method.toLowerCase() !== 'get') {
 		throw new Error("WebSocket upgrades must be GET requests");
