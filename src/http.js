@@ -14,6 +14,7 @@ function bufferToString(buffer) {
 
 /**
  * The Request information for an HTTP request
+ * All header keys must be lower case
  * @typedef {Object} HttpRequest
  * @property {string} method The method for the HTTP request. Required to be `GET` if upgrading to WebSocket
  * @property {number|string} httpVersion The version of the HTTP protocol used. Required to be `1.1` or higher if upgrading to WebSocket
