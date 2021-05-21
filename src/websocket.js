@@ -22,7 +22,7 @@ function isWebSocketUpgrade(req) {
 		throw new Error("Can not handle upgrade to anything other than WebSocket protocol");
 	}
 
-	// Spec only allows get requests for upgrade
+	// Spec only allows GET requests for upgrade
 	if (typeof req.method !== 'string' || req.method.toLowerCase() !== 'get') {
 		throw new Error("WebSocket upgrades must be GET requests");
 	}
@@ -32,7 +32,7 @@ function isWebSocketUpgrade(req) {
 		throw new Error("HTTP version must be at least 1.1");
 	}
 
-	// WebSocket version must be 13 according to the spec
+	// Spec has only defined WebSocket version 13
 	if (req.headers['sec-websocket-version'] != 13) {
 		console.log(req.headers['sec-websocket-version'], req.headers)
 		throw new Error("Only allows WebSocket version 13");
