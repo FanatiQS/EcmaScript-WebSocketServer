@@ -81,6 +81,7 @@ function makeWebSocketUpgradeResponse(req, makeAccept) {
  * @throws Is a fragmented frame
  * @throws Has one or more reserved bits set
  * @throws Payload is not masked
+ * @throws Control frame has message longer than 125
  */
 function getWebSocketOpCode(buffer) {
 	// Does not support fragmented frames
