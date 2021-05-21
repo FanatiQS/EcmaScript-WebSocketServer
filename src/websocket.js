@@ -127,15 +127,6 @@ const opCodes = {
 	pong: 0x0A
 };
 
-// Unmaskes payload from a client to a string
-function getUnmaskedText(buffer, len, offset) {
-	let unmasked = '';
-	for (let i = 0; i < len; i++) {
-		unmasked += String.fromCharCode(buffer[i + 4 + offset] ^ buffer[i % 4 + offset]);
-	}
-	return unmasked;
-}
-
 /**
  * Gets the payload from a WebSocket frame
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
@@ -158,7 +149,11 @@ function getWebSocketTextPayload(buffer) {
 	}
 
 	// Unmasks payload to string
-	return getUnmaskedText(buffer, len, offset);
+	let unmasked = '';
+	for (let i = 0; i < len; i++) {
+		unmasked += String.fromCharCode(buffer[i + 4 + offset] ^ buffer[i % 4 + offset]);
+	}
+	return unmasked;
 }
 
 /**
@@ -176,7 +171,12 @@ function getWebSocketCloseCode(buffer) {
  * @returns {string} Unmasked payload as a string
  */
 function getWebSocketCloseReason(buffer) {
-	return getUnmaskedText(buffer, buffer[1] & 0x7F, 4);
+	const len = buffer[1] & 0x7F;
+	let unmasked = '';
+	for (let i = 2; i < len; i++) {
+		unmasked += String.fromCharCode(buffer[i + 6] ^ buffer[i % 4 + 2]);
+	}
+	return unmasked;
 }
 
 // Creates WebSocket length bytes for payload
