@@ -224,6 +224,24 @@ function makeWebSocketPingFrame() {
 	return new Uint8Array([ 0x89, 0x00 ]);
 }
 
+/**
+ * Makes a WebSocket pong fram in response to a ping request
+ * @param {ArrayBuffer} ping The buffer from the ping request
+ * @returns {ArrayBuffer} The pong frame
+ */
+function makeWebSocketPingResponse(ping) {
+	// Creates pong response
+	const pong = new Uint8Array(ping.length);
+	pong[0] = 0x8A;
+
+	// Transfers content of ping request to pong response
+	for (let i = ping.length - 1; i > 0; i--) {
+		pong[i] = ping[i];
+	}
+
+	return pong;
+}
+
 
 
 //!! replace later with es6 exports
