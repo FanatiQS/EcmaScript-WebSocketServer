@@ -2,12 +2,14 @@ This is a set of HTTP and WebSocket server functions built in pure EcmaScript.
 It should be compatible with any JavaScript environment supporting ES6 or later.
 For it to work, it needs to get data from a TCP or HTTP socket and be able to write data back to that socket.
 
-Currently it does not support:
-* Multipacket HTTP requests (want this to be fixed first)
+# Currently it does not support:
+* Multipacket HTTP requests (want this to be fixed first, how are http requests even split into multiple tcp packets?)
 * Fragmented WebSocket frames
 * WebSocket extensions
+* WebSocket protocols
 * WebSocket payload lengths of 32 bit or longer (bit shifting in javascript can not work on number larger than 32 bit)
-* Payload for close and ping frames
+* Payload for close and ping frames, both incoming and outgoing
+* Setting HTTP headers for response, so cookies are not supported
 
 * HTTP 404 displays blank page
 * No support for binary frames (this would be super easy to add though, let me know if anyone wants it)
