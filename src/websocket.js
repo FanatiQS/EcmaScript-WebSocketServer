@@ -62,6 +62,7 @@ function isWebSocketUpgrade(req) {
  * @callback makeAccept
  * @param {string} key The derived key to hash
  * @returns {string} The key hashed with Sha1 and encoded in base64
+ * @todo replace makeAccept with fast pure js function
  */
 
 /**
@@ -139,6 +140,7 @@ const opCodes = {
  * Gets the payload from a WebSocket frame
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
  * @returns {string} Unmasked payload as a string
+ * @todo make sure payload length matches buffer length (offset + 4 + len === buffer.length). If buffer is too short, it should concat next chunk too. But that is compicated without instance.
  */
 function getWebSocketTextPayload(buffer) {
 	// Gets payload length

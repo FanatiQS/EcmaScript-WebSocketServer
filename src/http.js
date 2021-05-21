@@ -44,6 +44,7 @@ function stringToBuffer(str) {
  * @param {ArrayBuffer} buffer The content of the request as an array buffer
  * @returns {HttpRequest}
  * @todo this assumes that the http request is contained within a single tcp packet
+ * @todo add some error handling to make sure it is http protocol
  */
 function parseHttp(buffer) {
 	// Splits up data on linebreaks
