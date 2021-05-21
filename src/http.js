@@ -56,6 +56,16 @@ function parseHttp(buffer) {
 }
 
 /**
+ * Makes sure HTTP request comes from same origin
+ * @param {string} origin The current origin
+ * @param {HttpRequest} req The HTTP request to ensure comes from same origin
+ * @returns {boolean} If the request is from same origin
+ */
+function isSameOrigin(origin, req) {
+	return headers.origin === origin.toLowerCase();
+}
+
+/**
  * Makes a simple HTTP response for HTML content
  * @param {string} body The HTML content to make an HTTP response for
  * @returns {string} The HTTP response containing the body
