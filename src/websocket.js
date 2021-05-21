@@ -212,6 +212,7 @@ function makeWebSocketFrame(opCode, payload) {
  * Makes a WebSocket text frame containing the payload
  * @param {string} payload The text content to send in the WebSocket frame
  * @returns {ArrayBuffer} The WebSocket frame containing the payload
+ * @throws Has a payload larger than 32bit
  */
 function makeWebSocketTextFrame(payload) {
 	return makeWebSocketFrame(opCodes.text, payload);
