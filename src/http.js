@@ -93,11 +93,17 @@ const httpReasons = {
 	426: "Upgrade Required"
 }
 
-// Makes the start of an HTTP response
-function makeHttpResponseStart(code) {
+/**
+* Makes a simple HTTP response without a body
+* @param {number} code The HTTP status code to use
+* @param {boolan} done Indicates if the HTTP response is complete or should be concatenatable
+* @returns {string} The HTTP response
+*/
+function makeHttpResponse(code, done) {
 	return "HTTP/1.1 " + code + " " + httpReasons[code] + "\r\n" +
 		"Connection: close\r\n" +
-		"Date: " + new Date() + "\r\n";
+		"Date: " + new Date() + "\r\n" +
+		(done !== false) ? "\r\n" : "";
 }
 
 /**
@@ -107,20 +113,11 @@ function makeHttpResponseStart(code) {
  * @returns {string} The HTTP response containing the body
  */
 function makeHttpHtmlResponse(body, code = 200) {
-	return makeHttpResponseStart(code) +
+	return makeHttpResponse(code, false) +
 		"Content-Type: text/html\r\n" +
 		"Content-Length: " + body.length + "\r\n" +
 		"\r\n" +
 		body;
-}
-
-/**
- * Makes a simple HTTP response without a body
- * @param {number} code The HTTP status code to use
- * @returns {string} The HTTP response
- */
-function makeHttpResponse(code) {
-	return makeHttpResponseStart() + "\r\n";
 }
 
 /**
@@ -131,7 +128,7 @@ function makeHttpResponse(code) {
  * @returns {string} The HTTP response
  */
 function makeHttpHeaderResponse(code, headers) {
-	return makeHttpResponseStart(code) +
+	return makeHttpResponse(code, false) +
 		Object.entries(headers).map(([ key, value ]) => key + ': ' + value).join('\r\n') +
 		"\r\n\r\n";
 }
