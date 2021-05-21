@@ -108,7 +108,10 @@ function makeHttp404Response() {
 
 
 //!!
-exports.bufferToString = bufferToString;
-exports.parseHttp = parseHttp;
-exports.makeHttpHtmlResponse = makeHttpHtmlResponse;
-exports.makeHttp404Response = makeHttp404Response;
+module.exports = {
+	bufferToString,
+	stringToBuffer,
+	parseHttp,
+	makeHttpHtmlResponse,
+	makeHttp404Response,
+};
