@@ -120,6 +120,19 @@ function makeHttpResponse(code) {
 	return makeHttpResponseStart() + "\r\n";
 }
 
+/**
+ * Makes a simple HTTP response with customizable headers
+ * A body can be concatenated onto the response if the correct headers are set manually
+ * @param {number} code The HTTP status code to use
+ * @param {Object} headers The headers to insert into the HTTP response
+ * @returns {string} The HTTP response
+ */
+function makeHttpHeaderResponse(code, headers) {
+	return makeHttpResponseStart(code) +
+		Object.entries(headers).map(([ key, value ]) => key + ': ' + value).join('\r\n') +
+		"\r\n\r\n";
+}
+
 
 
 //!!
@@ -127,7 +140,8 @@ module.exports = {
 	bufferToString,
 	stringToBuffer,
 	parseHttp,
+	httpReasons,
 	makeHttpHtmlResponse,
-	makeHttpResponse,
-	httpReasons
+	makeHttpHeaderResponse,
+	makeHttpResponse
 };
