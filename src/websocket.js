@@ -231,8 +231,31 @@ function makeWebSocketTextFrame(payload) {
  * @todo Include close code and reason and make their jsdoc optional
  * @todo max length for reason is 123 bytes
  */
-function makeWebSocketCloseFrame() {
-	return new Uint8Array([ 0x88, 0x00 ]);
+function makeWebSocketCloseFrame(code, reason) {
+	const arr = [ 0x88, 0x00 ];
+
+	// Adds close code if available
+	if (code != null) {
+		if (code > 4999) throw new Error("Invalid WebSocket close code");
+		arr[1] += 2;
+		arr.push(code >> 8, code & 0xFF);
+
+		// Adds close reason if available
+		if (reason != null) {
+			if (reason.length >= 123) throw new Error("WebSocket close reason too long");
+			const len = reason.length;
+			arr[1] += len;
+			for (let i = 0; i < len; i++) {
+				arr.push(reason.charCodeAt(i));
+			}
+		}
+	}
+	// Makes it clear why reason was not used
+	else if (reason != null) {
+		throw new Error("WebSocket close code MUST be defined if reason is to be used");
+	}
+
+	return new Uint8Array(arr);
 }
 
 /**
