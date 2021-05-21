@@ -143,7 +143,7 @@ module.exports = {
 	parseHttp,
 	isSameOrigin,
 	httpReasons,
+	makeHttpResponse,
 	makeHttpHtmlResponse,
-	makeHttpHeaderResponse,
-	makeHttpResponse
+	makeHttpHeaderResponse
 };

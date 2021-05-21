@@ -294,10 +294,10 @@ module.exports = {
 	getWebSocketOpCode,
 	opCodes,
 	getWebSocketTextPayload,
-	makeWebSocketCloseFrame,
-	makeWebSocketTextFrame,
-	makeWebSocketPingFrame,
 	getWebSocketCloseCode,
-	getWebSocketCloseReason
+	getWebSocketCloseReason,
 	makeWebSocketPingResponse,
+	makeWebSocketTextFrame,
+	makeWebSocketCloseFrame,
+	makeWebSocketPingFrame
 };
