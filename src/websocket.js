@@ -225,13 +225,15 @@ function makeWebSocketPingFrame() {
 
 
 //!! replace later with es6 exports
-exports.isWebSocketUpgrade = isWebSocketUpgrade;
-exports.makeWebSocketUpgradeResponse = makeWebSocketUpgradeResponse;
-exports.getWebSocketOpCode = getWebSocketOpCode;
-exports.opCodes = opCodes;
-exports.getWebSocketTextPayload = getWebSocketTextPayload;
-exports.makeWebSocketCloseFrame = makeWebSocketCloseFrame;
-exports.makeWebSocketTextFrame = makeWebSocketTextFrame;
-exports.makeWebSocketPingFrame = makeWebSocketPingFrame;
-exports.getWebSocketCloseCode = getWebSocketCloseCode;
-exports.getWebSocketCloseReason = getWebSocketCloseReason;
+module.exports = {
+	isWebSocketUpgrade,
+	makeWebSocketUpgradeResponse,
+	getWebSocketOpCode,
+	opCodes,
+	getWebSocketTextPayload,
+	makeWebSocketCloseFrame,
+	makeWebSocketTextFrame,
+	makeWebSocketPingFrame,
+	getWebSocketCloseCode,
+	getWebSocketCloseReason
+};
