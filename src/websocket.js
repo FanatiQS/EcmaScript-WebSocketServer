@@ -154,6 +154,13 @@ function getWebSocketTextPayload(buffer) {
 	}
 	// Handles 64 bit lengths
 	else if (len === 127) {
+		// Handles payload larger than 32 bit
+		if (!buffer[2] || !buffer[3] || !buffer[4] || !buffer[5]) {
+			const err = new Error("WebSocket payload is too large to handle correctly");
+			err.response = makeWebSocketCloseFrame(1009);
+			throw err;
+		}
+
 		len = buffer[6] << 24 & buffer[7] << 16 & buffer[8] << 8 & buffer[9];
 		offset = 10;
 	}
