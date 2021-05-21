@@ -48,8 +48,8 @@ function parseHttp(buffer) {
 	});
 
 	return {
-		method,
-		url,
+		method: method.toUpperCase(),
+		url: url.toLowerCase(),
 		httpVersion: httpVersion.slice(5),
 		headers
 	}
