@@ -19,28 +19,32 @@ function isWebSocketUpgrade(req) {
 		typeof req.headers.upgrade !== 'string' ||
 		req.headers.upgrade.toLowerCase() !== 'websocket'
 	) {
-		throw new Error("Can not handle upgrade to anything other than WebSocket protocol");
+		const err = new Error("This WebSocket implementation can not handle HTTP upgrades to anything other than the WebSocket protocol");
+		throw err;
 	}
 
 	// Spec only allows GET requests for upgrade
 	if (typeof req.method !== 'string' || req.method.toLowerCase() !== 'get') {
-		throw new Error("WebSocket upgrades must be GET requests");
+		const err = new Error("WebSocket upgrades must be GET requests");
+		throw err;
 	}
 
 	// Spec only allows http 1.1 or newer
 	if (req.httpVersion < 1.1) {
-		throw new Error("HTTP version must be at least 1.1");
+		const err = new Error("HTTP version must be at least 1.1");
+		throw err;
 	}
 
 	// Spec has only defined WebSocket version 13
 	if (req.headers['sec-websocket-version'] != 13) {
-		console.log(req.headers['sec-websocket-version'], req.headers)
-		throw new Error("Only allows WebSocket version 13");
+		const err = new Error("Only allows WebSocket version 13");
+		throw err;
 	}
 
 	// Spec requires websocket key to be defined
 	if (typeof req.headers['sec-websocket-key'] !== 'string') {
-		throw new Error("Missing WebSocket key");
+		const err = new Error("Missing WebSocket key");
+		throw err;
 	}
 
 	return true;
