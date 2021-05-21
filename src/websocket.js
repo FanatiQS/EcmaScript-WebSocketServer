@@ -209,7 +209,8 @@ function makeWebSocketTextFrame(payload) {
 /**
  * Makes a WebSocket close frame
  * @returns {ArrayBuffer} The close frame
- * @todo Include payload in close frame when I understand how it works
+ * @todo Include close code and reason and make their jsdoc optional
+ * @todo max length for reason is 123 bytes
  */
 function makeWebSocketCloseFrame() {
 	return new Uint8Array([ 0x88, 0x00 ]);
@@ -218,7 +219,7 @@ function makeWebSocketCloseFrame() {
 /**
  * Makes a WebSocket ping frame
  * @returns {ArrayBuffer} The ping frame
- * @todo Include payload in ping frame when I understand how it works
+ * @todo Include payload in ping frame
  */
 function makeWebSocketPingFrame() {
 	return new Uint8Array([ 0x89, 0x00 ]);
