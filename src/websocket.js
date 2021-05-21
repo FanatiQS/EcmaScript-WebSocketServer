@@ -1,7 +1,10 @@
+const { makeHttpResponse } = require("./http.js");
+
 /**
  * Checks if request is a WebSocket upgrade
  * @param {HttpRequest} req The HTTP request object
  * @returns {boolean} If the request is a WebSocket upgrade or not
+ * Error objects has `response` property with HTTP response for error
  * @throws Is WebSocket upgrade but method is NOT GET
  * @throws Is WebSocket upgrade but HTTP version is not 1.1 or higher
  * @throws Is WebSocket upgrade but WebSocket version is not 13
@@ -20,30 +23,35 @@ function isWebSocketUpgrade(req) {
 		req.headers.upgrade.toLowerCase() !== 'websocket'
 	) {
 		const err = new Error("This WebSocket implementation can not handle HTTP upgrades to anything other than the WebSocket protocol");
+		err.response = makeHttpHeaderResponse(426, { Upgrade: "websocket" });
 		throw err;
 	}
 
 	// Spec only allows GET requests for upgrade
 	if (typeof req.method !== 'string' || req.method.toLowerCase() !== 'get') {
 		const err = new Error("WebSocket upgrades must be GET requests");
+		err.response = makeHttpResponse(400);
 		throw err;
 	}
 
 	// Spec only allows http 1.1 or newer
 	if (req.httpVersion < 1.1) {
 		const err = new Error("HTTP version must be at least 1.1");
+		err.response = makeHttpResponse(400);
 		throw err;
 	}
 
 	// Spec has only defined WebSocket version 13
 	if (req.headers['sec-websocket-version'] != 13) {
 		const err = new Error("Only allows WebSocket version 13");
+		err.response = makeHttpHeaderResponse(426, { ["Sec-WebSocket-Version"]: 13 });
 		throw err;
 	}
 
 	// Spec requires websocket key to be defined
 	if (typeof req.headers['sec-websocket-key'] !== 'string') {
 		const err = new Error("Missing WebSocket key");
+		err.response = makeHttpResponse(400);
 		throw err;
 	}
 
