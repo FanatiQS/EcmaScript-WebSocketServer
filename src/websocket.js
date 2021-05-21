@@ -176,9 +176,7 @@ function getWebSocketCloseCode(buffer) {
  * @returns {string} Unmasked payload as a string
  */
 function getWebSocketCloseReason(buffer) {
-	const len = buffer[1] & 0x7F;
-	if (len >= 126) throw new Error("Close frames have a maximum payload of 125 bytes");
-	return getUnmaskedText(buffer, len, 4);
+	return getUnmaskedText(buffer, buffer[1] & 0x7F, 4);
 }
 
 // Creates WebSocket length bytes for payload
