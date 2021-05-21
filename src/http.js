@@ -104,7 +104,7 @@ function makeHttpResponse(code, done) {
 	return "HTTP/1.1 " + code + " " + httpReasons[code] + "\r\n" +
 		"Connection: close\r\n" +
 		"Date: " + new Date() + "\r\n" +
-		(done !== false) ? "\r\n" : "";
+		((done !== false) ? "\r\n" : "");
 }
 
 /**
