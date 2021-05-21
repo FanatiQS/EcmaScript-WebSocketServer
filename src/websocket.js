@@ -61,7 +61,6 @@ function isWebSocketUpgrade(req) {
  * @param {HttpRequest} req The HTTP request known to be an upgrade to WebSocket
  * @param {makeAccept} makeAccept The hasing function that creates the response
  * @returns {string} The HTTP response to upgrade to WebSocket
- * @todo switch from returning string to returning ArrayBuffer
  */
 function makeWebSocketUpgradeResponse(req, makeAccept) {
 	return "HTTP/1.1 101 Switching Protocols\r\n" +
