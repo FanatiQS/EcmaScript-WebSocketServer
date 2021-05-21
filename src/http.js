@@ -87,7 +87,10 @@ function isSameOrigin(origin, req) {
  */
 const httpReasons = {
 	200: "OK",
-	404: "Not Found"
+	400: "Bad Request",
+	403: "Forbidden",
+	404: "Not Found",
+	426: "Upgrade Required"
 }
 
 // Makes the start of an HTTP response
