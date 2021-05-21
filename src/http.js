@@ -141,6 +141,7 @@ module.exports = {
 	bufferToString,
 	stringToBuffer,
 	parseHttp,
+	isSameOrigin,
 	httpReasons,
 	makeHttpHtmlResponse,
 	makeHttpHeaderResponse,
