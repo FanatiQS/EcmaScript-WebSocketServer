@@ -5,7 +5,7 @@
  */
 
 /**
- * Converts an array buffer to a string
+ * Converts a buffer to a string
  * @param {ArrayBuffer} buffer The buffer to convert to a string
  * @returns {string} The buffer converted to a string
  */
@@ -14,6 +14,7 @@ function bufferToString(buffer) {
 }
 
 /**
+ * Converts a string to a buffer
  * @param {string} str The string to convert to a buffer
  * @returns {ArrayBuffer} The string converted to a buffer
  */
