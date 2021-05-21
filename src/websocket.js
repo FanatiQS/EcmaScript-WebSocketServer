@@ -16,7 +16,7 @@ function isWebSocketUpgrade(req) {
 
 	// Only accepts upgrade to WebSocket
 	if (
-		typeof req.hearder.upgrade !== 'string' ||
+		typeof req.headers.upgrade !== 'string' ||
 		req.headers.upgrade.toLowerCase() !== 'websocket'
 	) {
 		throw new Error("Can not handle upgrade to anything other than WebSocket protocol");
