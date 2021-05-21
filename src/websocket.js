@@ -169,7 +169,7 @@ function getWebSocketTextPayload(buffer) {
 /**
  * Gets the close status code for the connection
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
- * @returns {number} The status code received from the client
+ * @returns {number|undefined} The status code received from the client or undefined if no there is no code
  */
 function getWebSocketCloseCode(buffer) {
 	if (!(buffer[1] & 0x7F)) return undefined;
