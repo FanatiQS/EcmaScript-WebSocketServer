@@ -14,6 +14,19 @@ function bufferToString(buffer) {
 }
 
 /**
+ * @param {string} str The string to convert to a buffer
+ * @returns {ArrayBuffer} The string converted to a buffer
+ */
+function stringToBuffer(str) {
+	const len = str.length;
+	const buffer = new Uint8Array(len);
+	for (let i = 0; i < len; i++) {
+		buffer[i] = str.charCodeAt(i);
+	}
+	return buffer;
+}
+
+/**
  * The Request information for an HTTP request
  * All header keys must be lower case
  * @typedef {Object} HttpRequest
