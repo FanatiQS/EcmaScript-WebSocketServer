@@ -81,29 +81,43 @@ function isSameOrigin(origin, req) {
 }
 
 /**
- * Makes a simple HTTP response for HTML content
- * @param {string} body The HTML content to make an HTTP response for
- * @returns {string} The HTTP response containing the body
- * @todo switch from returning string to returning ArrayBuffer?
+ * The HTTP reasons
+ * Customizable to add new HTTP status codes
+ * @todo add jsdoc documentation
  */
-function makeHttpHtmlResponse(body) {
-	return "HTTP/1.1 200 OK\r\n" +
+const httpReasons = {
+	200: "OK",
+	404: "Not Found"
+}
+
+// Makes the start of an HTTP response
+function makeHttpResponseStart(code) {
+	return "HTTP/1.1 " + code + " " + httpReasons[code] + "\r\n" +
+		"Connection: close\r\n" +
+		"Date: " + new Date() + "\r\n";
+}
+
+/**
+ * Makes a simple HTTP response with HTML content
+ * @param {string} body The HTML content to make an HTTP response for
+ * @param {number} [code=200] The HTTP status code to use. Defaults to 200
+ * @returns {string} The HTTP response containing the body
+ */
+function makeHttpHtmlResponse(body, code = 200) {
+	return makeHttpResponseStart(code) +
 		"Content-Type: text/html\r\n" +
 		"Content-Length: " + body.length + "\r\n" +
-		"Date: " + new Date() + "\r\n" +
 		"\r\n" +
 		body;
 }
 
 /**
- * Makes a simple HTTP 404 response
+ * Makes a simple HTTP response without a body
+ * @param {number} code The HTTP status code to use
  * @returns {string} The HTTP response
- * @todo switch from returning string to returning ArrayBuffer?
- * @todo make it display anything but a blank page
  */
-function makeHttp404Response() {
-	return "HTTP/1.1 404 Not Found\r\n" +
-		"\r\n";
+function makeHttpResponse(code) {
+	return makeHttpResponseStart() + "\r\n";
 }
 
 
@@ -114,5 +128,6 @@ module.exports = {
 	stringToBuffer,
 	parseHttp,
 	makeHttpHtmlResponse,
-	makeHttp404Response,
+	makeHttpResponse,
+	httpReasons
 };
