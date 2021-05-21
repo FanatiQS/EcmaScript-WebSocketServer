@@ -1,6 +1,7 @@
 /**
- * @typedef {Array} ArrayBuffer
- * Anything iterable containing integers
+ * @typedef {ArrayBuffer} Uint8Array
+ * As an argument, it can be anything iterable containing integers
+ * As a return value, it is always a uint8array
  */
 
 /**
