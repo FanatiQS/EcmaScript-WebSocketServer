@@ -11,10 +11,16 @@ function isWebSocketUpgrade(req) {
 	// Retuns false for non websocket upgrades
 	if (
 		typeof req.headers.connection !== 'string' ||
-		req.headers.connection.toLowerCase() !== 'upgrade' ||
-		typeof req.headers.upgrade !== 'string' ||
-		req.headers.upgrade.toLowerCase() !== 'websocket'
+		req.headers.connection.toLowerCase() !== 'upgrade'
 	) return false;
+
+	// Only accepts upgrade to WebSocket
+	if (
+		typeof req.hearder.upgrade !== 'string' ||
+		req.headers.upgrade.toLowerCase() !== 'websocket'
+	) {
+		throw new Error("Can not handle upgrade to anything other than WebSocket protocol");
+	}
 
 	// Spec only allows get requests for upgrade
 	if (typeof req.method !== 'string' || req.method.toLowerCase() !== 'get') {
