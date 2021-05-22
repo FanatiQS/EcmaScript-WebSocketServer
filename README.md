@@ -9,7 +9,6 @@ For it to work, it needs to get data from a TCP or HTTP socket and be able to wr
 * WebSocket protocols
 * WebSocket payload lengths of 32 bit or longer (bit shifting in javascript can not work on number larger than 32 bit)
 * Payload for making ping frames
-* No support for binary frames (this would be super easy to add though)
 
 The purpose of this library is not to make the best WebSocket server library for Node or any specific environment. Instead, the idea is to have a WebSocket server library that works in any environment and only requires accesss to a TCP or HTTP socket.
 Since all socket handling is done in javascript, code using this library would therefore be easier to implement in multiple environments and would also act the same in every environment.

@@ -245,7 +245,6 @@ function makeWebSocketTextFrame(payload) {
  * @param {ArrayBuffer} payload The binary content to send in the WebSocket frame
  * @returns {ArrayBuffer} The WebSocket frame containing the payload
  * @throws Has a payload largeer than 32bit
- * @todo Might be better to spread payload into array at buffer construction and skip loop
  */
 function makeWebSocketBinaryFrame(payload) {
 	return new Uint8Array([
