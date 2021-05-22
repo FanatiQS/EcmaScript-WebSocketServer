@@ -29,8 +29,17 @@ const server = net.createServer((socket) => {
 		if (state === 0) {
 			const req = parseHttp(data);
 
+			let isWebSocket;
+			try {
+				isWebSocket = isWebSocketUpgrade(req);
+			}
+			catch (err) {
+				socket.end(err.response);
+				return;
+			}
+
 			// Upgrade to WebSocket
-			if (isWebSocketUpgrade(req)) {
+			if (isWebSocket) {
 				state = 1;
 				socket.write(makeWebSocketUpgradeResponse(req));
 			}
@@ -66,7 +75,15 @@ const server = net.createServer((socket) => {
 		}
 		// Handle WebSocket packets
 		else {
-			switch(getWebSocketOpCode(data)) {
+			let opCode;
+			try {
+				opCode = getWebSocketOpCode(data);
+			}
+			catch (err) {
+				socket.write(err.response);
+			}
+
+			switch (opCode) {
 				case opCodes.text: {
 					const msg = getWebSocketTextPayload(data);
 					console.log('text', msg);

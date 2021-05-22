@@ -49,11 +49,28 @@ server.on('upgrade', (req, socket) => {
 	let done = false;
 
 	// Catches HTTP errors for upgrade request
-	isWebSocketUpgrade(req);
+	try {
+		isWebSocketUpgrade(req);
+	}
+	catch(err) {
+		socket.end(err.response);
+		return;
+	}
+
+	// Send HTTP upgrade to websocket
+	socket.write(makeWebSocketUpgradeResponse(req));
 
 	// Listen for websocket data
 	socket.on('data', (data) => {
-		switch(getWebSocketOpCode(data)) {
+		let opCode
+		try {
+			opCode = getWebSocketOpCode(data);
+		}
+		catch (err) {
+			socket.write(err.response);
+		}
+
+		switch (opCode) {
 			case opCodes.text: {
 				const msg = getWebSocketTextPayload(data);
 				console.log('text', msg);
@@ -104,9 +121,6 @@ server.on('upgrade', (req, socket) => {
 		console.log('tcp close');
 		done = true;
 	});
-
-	// Send HTTP upgrade to websocket
-	socket.write(makeWebSocketUpgradeResponse(req));
 
 });
 
