@@ -259,6 +259,7 @@ function makeWebSocketBinaryFrame(payload) {
  * @param {number} [code] The close code to send
  * @param {string} [reason] The close reason to send (requires close code)
  * @returns {ArrayBuffer} The close frame
+ * @throws Code is ouside range of valid close codes
  * @throws Reason argument is defined but not code argument
  */
 function makeWebSocketCloseFrame(code, reason) {
