@@ -123,7 +123,7 @@ function getWebSocketOpCode(buffer) {
  * text: get text content with getWebSocketTextFrame function
  * binary: no function to get content implemented yet
  * close: get close code with getWebSocketCloseCode, get close reason with getWebSocketCloseReason, if server did not initiate close, server MUST send a close frame back with makeWebSocketCloseFrame
- * ping: server MUST send a pong back to client with makeWebSocketPingResponse
+ * ping: server MUST send a pong back to client with makeWebSocketPingResponse. The WebSocket client in browsers can not send pings to the server as far as I know, so this feature might not ever be used.
  * pong: get text content with getWebSocketTextFrame if a payload was sent with the ping (currently sending payload with ping is not implemented)
  */
 const opCodes = {
