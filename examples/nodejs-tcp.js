@@ -69,7 +69,7 @@ const server = net.createServer((socket) => {
 			switch(getWebSocketOpCode(data)) {
 				case opCodes.text: {
 					const msg = getWebSocketTextPayload(data);
-					console.log('data', msg);
+					console.log('text', msg);
 
 					if (msg === 'close') {
 						socket.write(makeWebSocketCloseFrame(4999, "test"));
@@ -81,7 +81,15 @@ const server = net.createServer((socket) => {
 					else if (msg === 'message') {
 						socket.write(makeWebSocketTextFrame('test'));
 					}
+					else if (msg === 'binary') {
+						socket.write(makeWebSocketBinaryFrame(new Uint8Array([ 48, 49, 50 ])));
+					}
 
+					break;
+				}
+				case opCodes.binary: {
+					const buffer = getWebSocketBinaryPayload(data);
+					console.log('binary', buffer);
 					break;
 				}
 				case opCodes.close: {
