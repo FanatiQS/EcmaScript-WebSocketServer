@@ -23,7 +23,7 @@ Functions are documented with JSDoc.
 This library uses modified versions of other libraries for Sha1 and Base64. The functions are modified to only support what is needed for the length and content it is going to be used for. When "warmed up", it is actually faster than the built-in crypto functions in NodeJS.
 
 # todo
-* Add Error catching in examples
+* Test error catching in examples
 * Make sure http proxies work
 * Make sure http filtering works (whatever that is, but it was mentioned in the spec)
 * Host is a required http header but i dont think it would need to interact with the http parser or websocket system
