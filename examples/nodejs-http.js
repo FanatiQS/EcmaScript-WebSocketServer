@@ -65,7 +65,7 @@ server.on('upgrade', (req, socket) => {
 				console.log('data', msg);
 
 				if (msg === 'close') {
-					socket.write(makeWebSocketCloseFrame());
+					socket.write(makeWebSocketCloseFrame(4999, "test"));
 					done = true;
 				}
 				else if (msg === 'ping') {

@@ -77,7 +77,7 @@ const server = net.createServer((socket) => {
 					console.log('data', msg);
 
 					if (msg === 'close') {
-						socket.write(makeWebSocketCloseFrame());
+						socket.write(makeWebSocketCloseFrame(4999, "test"));
 						state = 2;
 					}
 					else if (msg === 'ping') {
