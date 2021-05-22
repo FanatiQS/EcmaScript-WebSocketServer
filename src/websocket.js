@@ -220,9 +220,10 @@ function makeWebSocketTextFrame(payload) {
 
 /**
  * Makes a WebSocket close frame
+ * @param {number} [code] The close code to send
+ * @param {string} [reason] The close reason to send (requires close code)
  * @returns {ArrayBuffer} The close frame
- * @todo Include close code and reason and make their jsdoc optional
- * @todo max length for reason is 123 bytes
+ * @throws Reason argument is defined but not code argument
  */
 function makeWebSocketCloseFrame(code, reason) {
 	const arr = [ 0x88, 0x00 ];
