@@ -13,11 +13,6 @@ const {
 } = require('../src/index.js');
 
 const http = require('http');
-const crypto = require('crypto');
-
-function makeAccept(key) {
-	return crypto.createHash('sha1').update(key).digest('base64');
-};
 
 
 
@@ -103,7 +98,7 @@ server.on('upgrade', (req, socket) => {
 	});
 
 	// Send HTTP upgrade to websocket
-	socket.write(makeWebSocketUpgradeResponse(req, makeAccept));
+	socket.write(makeWebSocketUpgradeResponse(req));
 
 });
 

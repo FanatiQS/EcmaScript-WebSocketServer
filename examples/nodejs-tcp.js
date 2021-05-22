@@ -17,11 +17,6 @@ const {
 } = require('../src/index.js');
 
 const net = require('net');
-const crypto = require('crypto');
-
-function makeAccept(key) {
-	return crypto.createHash('sha1').update(key).digest('base64');
-};
 
 
 
@@ -37,7 +32,7 @@ const server = net.createServer((socket) => {
 			// Upgrade to WebSocket
 			if (isWebSocketUpgrade(req)) {
 				state = 1;
-				socket.write(makeWebSocketUpgradeResponse(req, makeAccept));
+				socket.write(makeWebSocketUpgradeResponse(req));
 			}
 			// Use HTTP
 			else {
