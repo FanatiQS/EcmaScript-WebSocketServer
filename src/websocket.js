@@ -1,4 +1,5 @@
 const { makeHttpResponse } = require("./http.js");
+const makeAccept = require('./sha1b64.js');
 
 /**
  * Checks if request is a WebSocket upgrade
@@ -59,19 +60,11 @@ function isWebSocketUpgrade(req) {
 }
 
 /**
- * @callback makeAccept
- * @param {string} key The derived key to hash
- * @returns {string} The key hashed with Sha1 and encoded in base64
- * @todo replace makeAccept with fast pure js function
- */
-
-/**
  * Makes a WebSocket upgrade response
  * @param {HttpRequest} req The HTTP request known to be an upgrade to WebSocket
- * @param {makeAccept} makeAccept The hasing function that creates the response
  * @returns {string} The HTTP response to upgrade to WebSocket
  */
-function makeWebSocketUpgradeResponse(req, makeAccept) {
+function makeWebSocketUpgradeResponse(req) {
 	return "HTTP/1.1 101 Switching Protocols\r\n" +
 		"Connection: Upgrade\r\n" +
 		"Upgrade: websocket\r\n" +

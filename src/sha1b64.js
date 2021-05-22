@@ -7,35 +7,62 @@
  * @license MIT
  */
 
+/*
+ * and
+ */
+
+/**
+ * Base64 encode / decode
+ * http://www.webtoolkit.info/
+ */
+
 'use strict';
 
+const bas64Table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 const SHIFT = [24, 16, 8, 0];
 
 function sha1(message) {
+	// Sha1 hash
 	const h = [ 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0 ];
-	const blocks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	let length = message.length;
+	const blocks = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
 
-	for (let index = 0; index < length; index++) {
+	for (let index = message.length - 1; index >= 0; index--) {
 		blocks[index >> 2] |= message.charCodeAt(index) << SHIFT[index & 3];
 	}
 
 	blocks[15] |= -2147483648;
 	sha1Hash(h, blocks);
-	blocks[0] = blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+	blocks[0] = blocks[1] = blocks[2] = blocks[3] =
 	blocks[4] = blocks[5] = blocks[6] = blocks[7] =
 	blocks[8] = blocks[9] = blocks[10] = blocks[11] =
-	blocks[12] = blocks[13] = blocks[14] = blocks[15] = blocks[14] = 0;
+	blocks[12] = blocks[13] = blocks[14] = blocks[16] = 0;
 	blocks[15] = 480;
 	sha1Hash(h, blocks);
 
-	return [
-		(h[0] >> 24) & 0xFF, (h[0] >> 16) & 0xFF, (h[0] >> 8) & 0xFF, h[0] & 0xFF,
-		(h[1] >> 24) & 0xFF, (h[1] >> 16) & 0xFF, (h[1] >> 8) & 0xFF, h[1] & 0xFF,
-		(h[2] >> 24) & 0xFF, (h[2] >> 16) & 0xFF, (h[2] >> 8) & 0xFF, h[2] & 0xFF,
-		(h[3] >> 24) & 0xFF, (h[3] >> 16) & 0xFF, (h[3] >> 8) & 0xFF, h[3] & 0xFF,
-		(h[4] >> 24) & 0xFF, (h[4] >> 16) & 0xFF, (h[4] >> 8) & 0xFF, h[4] & 0xFF
+	const digest = [
+		(h[0] >> 24) & 0xFF, (h[0] >> 16) & 0xFF, (h[0] >> 8) & 0xFF,
+		h[0] & 0xFF, (h[1] >> 24) & 0xFF, (h[1] >> 16) & 0xFF,
+		(h[1] >> 8) & 0xFF, h[1] & 0xFF, (h[2] >> 24) & 0xFF,
+		(h[2] >> 16) & 0xFF, (h[2] >> 8) & 0xFF, h[2] & 0xFF,
+		(h[3] >> 24) & 0xFF, (h[3] >> 16) & 0xFF, (h[3] >> 8) & 0xFF,
+		h[3] & 0xFF, (h[4] >> 24) & 0xFF, (h[4] >> 16) & 0xFF,
+		(h[4] >> 8) & 0xFF, h[4] & 0xFF
 	];
+
+	// Base64 encode
+	let output = "";
+	let i = 0;
+	while (i < 20) {
+		const chr1 = digest[i++];
+		const chr2 = digest[i++];
+		const chr3 = digest[i++];
+
+		output += bas64Table.charAt(chr1 >> 2) +
+			bas64Table.charAt(((chr1 & 3) << 4) | (chr2 >> 4)) +
+			bas64Table.charAt(((chr2 & 15) << 2) | (chr3 >> 6)) +
+			bas64Table.charAt((chr3 & 63) || 64);
+	}
+	return output;
 };
 
 function sha1Hash(h, blocks) {
@@ -44,7 +71,7 @@ function sha1Hash(h, blocks) {
 
 	for(j = 16; j < 80; ++j) {
 		t = blocks[j - 3] ^ blocks[j - 8] ^ blocks[j - 14] ^ blocks[j - 16];
-		blocks[j] =  (t << 1) | (t >>> 31);
+		blocks[j] = (t << 1) | (t >>> 31);
 	}
 
 	for(j = 0; j < 20; j += 5) {
@@ -155,58 +182,11 @@ function sha1Hash(h, blocks) {
 		c = (c << 30) | (c >>> 2);
 	}
 
-    h[0] += a;
-    h[1] += b;
-    h[2] += c;
-    h[3] += d;
-    h[4] += e;
+	h[0] += a;
+	h[1] += b;
+	h[2] += c;
+	h[3] += d;
+	h[4] += e;
 };
 
-
-
-/**
- * Base64 encode / decode
- * http://www.webtoolkit.info/
- */
-const bas64Table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-function b64encode(key) {
-	const input = sha1(key);
-	let output = "";
-	let i = 0;
-
-	while (i < input.length) {
-		const chr1 = input[i++];
-		const chr2 = input[i++];
-		const chr3 = input[i++];
-
-		const enc1 = chr1 >> 2;
-		const enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-		let enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-		let enc4 = chr3 & 63;
-
-		if (isNaN(chr2)) {
-			enc3 = enc4 = 64;
-		}
-		else if (isNaN(chr3)) {
-			enc4 = 64;
-		}
-
-		output += bas64Table.charAt(enc1) + bas64Table.charAt(enc2) +
-			bas64Table.charAt(enc3) + bas64Table.charAt(enc4);
-	}
-
-	return output;
-}
-
-
-
-const crypto = require('crypto');
-for (let i = 0; i < 200; i++) {
-	console.time();
-	// const hash = crypto.createHash('sha1');
-	// hash.update('dGhlIHNhbXBsZSBub25jZQ==' + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
-	// const digest = hash.digest('base64');
-	const digest = b64encode(('dGhlIHNhbXBsZSBub25jZQ==' + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"));
-	if (digest !== "s3pPLMBiTxaQ9kYGzzhZRbK+xOo=") throw digest;
-	console.timeEnd();
-}
+module.exports = sha1;
