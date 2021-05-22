@@ -103,6 +103,7 @@ const server = net.createServer((socket) => {
 				}
 				case opCode.ping: {
 					console.log('Got ping request');
+					socket.write(makeWebSocketPingResponse(data));
 					break;
 				}
 				default: {

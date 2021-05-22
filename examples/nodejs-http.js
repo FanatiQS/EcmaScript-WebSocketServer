@@ -91,6 +91,7 @@ server.on('upgrade', (req, socket) => {
 			}
 			case opCode.ping: {
 				console.log('Got ping request');
+				socket.write(makeWebSocketPingResponse(data));
 				break;
 			}
 			default: {
