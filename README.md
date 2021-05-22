@@ -30,3 +30,4 @@ This library uses modified versions of other libraries for Sha1 and Base64. The 
 * Host is a required http header but i dont think it would need to interact with the http parser or websocket system
 * A good way for implementors to be forced to handle control frame correctly and to not send data after socket is closed. This might require a constructor. A constructor approach would be another way of doing it and only using the function should still be valid.
 * Should the server close socket on close frame from client? In spec, it said that the initiating peer closes the socket
+* Add /doc from jsdoc. Would be great to use github actions.
