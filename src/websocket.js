@@ -120,6 +120,11 @@ function getWebSocketOpCode(buffer) {
 
 /**
  * The possible WebSocket op codes that can be returned from `getWebSocketOpCode` function
+ * text: get text content with getWebSocketTextFrame function
+ * binary: no function to get content implemented yet
+ * close: get close code with getWebSocketCloseCode, get close reason with getWebSocketCloseReason, if server did not initiate close, server MUST send a close frame back with makeWebSocketCloseFrame
+ * ping: server MUST send a pong back to client with makeWebSocketPingResponse
+ * pong: get text content with getWebSocketTextFrame if a payload was sent with the ping (currently sending payload with ping is not implemented)
  */
 const opCodes = {
 	text: 0x01,
