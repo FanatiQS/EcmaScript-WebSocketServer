@@ -86,7 +86,7 @@ function isSameOrigin(origin, req) {
  * Customizable to add new HTTP status codes
  * @todo add jsdoc documentation
  */
-const httpReasons = {
+const httpStatusCodes = {
 	200: "OK",
 	400: "Bad Request",
 	403: "Forbidden",
@@ -101,7 +101,7 @@ const httpReasons = {
 * @returns {string} The HTTP response
 */
 function makeHttpResponse(code, done) {
-	return "HTTP/1.1 " + code + " " + httpReasons[code] + "\r\n" +
+	return "HTTP/1.1 " + code + " " + httpStatusCodes[code] + "\r\n" +
 		"Connection: close\r\n" +
 		"Date: " + new Date() + "\r\n" +
 		((done !== false) ? "\r\n" : "");
@@ -142,7 +142,7 @@ module.exports = {
 	stringToBuffer,
 	parseHttp,
 	isSameOrigin,
-	httpReasons,
+	httpStatusCodes,
 	makeHttpResponse,
 	makeHttpHtmlResponse,
 	makeHttpHeaderResponse
