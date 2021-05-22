@@ -81,6 +81,7 @@ const server = net.createServer((socket) => {
 			}
 			catch (err) {
 				socket.write(err.response);
+				return;
 			}
 
 			switch (opCode) {

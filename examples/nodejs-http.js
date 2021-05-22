@@ -52,7 +52,7 @@ server.on('upgrade', (req, socket) => {
 	try {
 		isWebSocketUpgrade(req);
 	}
-	catch(err) {
+	catch (err) {
 		socket.end(err.response);
 		return;
 	}
@@ -68,6 +68,7 @@ server.on('upgrade', (req, socket) => {
 		}
 		catch (err) {
 			socket.write(err.response);
+			return;
 		}
 
 		switch (opCode) {
