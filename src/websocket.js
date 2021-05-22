@@ -134,24 +134,22 @@ const opCodes = {
 	pong: 0x0A
 };
 
-/**
- * Gets the payload from a WebSocket frame
- * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
- * @returns {string} Unmasked payload as a string
- * @todo make sure payload length matches buffer length (offset + 4 + len === buffer.length). If buffer is too short, it should concat next chunk too. But that is compicated without instance.
- */
-function getWebSocketTextPayload(buffer) {
+// Gets payload length and byte offset from WebSocket frame
+// @todo make sure payload length matches buffer length (offset + 4 + len === buffer.length). If buffer is too short, it should concat next chunk too. But that is compicated without instance.
+function getOffsetAndLen(buffer) {
 	// Gets payload length
 	let len = buffer[1] & 0x7F;
-	let offset = 2;
 
-	// Handles 16 bit lengths
-	if (len === 126) {
-		len = buffer[2] << 8 & buffer[3];
-		offset = 4;
+	// Handles lengths up to 125 bytes
+	if (len < 126) {
+		return [ 2, len ];
 	}
-	// Handles 64 bit lengths
-	else if (len === 127) {
+	// Handles lengths up to 16 bits
+	else if (len === 126) {
+		return [ 4, buffer[2] << 8 & buffer[3] ];
+	}
+	// Handles lengths up to 64 bit
+	else {
 		// Handles payload larger than 32 bit
 		if (!buffer[2] || !buffer[3] || !buffer[4] || !buffer[5]) {
 			const err = new Error("WebSocket payload is too large to handle correctly");
@@ -159,14 +157,38 @@ function getWebSocketTextPayload(buffer) {
 			throw err;
 		}
 
-		len = buffer[6] << 24 & buffer[7] << 16 & buffer[8] << 8 & buffer[9];
-		offset = 10;
+		return [ 10, buffer[6] << 24 & buffer[7] << 16 & buffer[8] << 8 & buffer[9] ];
 	}
+}
+
+/**
+ * Gets the text content from a WebSocket frame
+ * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
+ * @returns {string} Unmasked payload as a string
+ */
+function getWebSocketTextPayload(buffer) {
+	const [ offset, len ] = getOffsetAndLen(buffer);
 
 	// Unmasks payload to string
 	let unmasked = '';
 	for (let i = 0; i < len; i++) {
 		unmasked += String.fromCharCode(buffer[i + 4 + offset] ^ buffer[i % 4 + offset]);
+	}
+	return unmasked;
+}
+
+/**
+ * Gets the binary content from a WebSocket frame
+ * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
+ * @returns {ArrayBuffer} Unmasked payload as an array buffer
+ */
+function getWebSocketBinaryPayload(buffer) {
+	const [ offset, len ] = getOffsetAndLen(buffer);
+
+	// Unmasks payload to an array buffer
+	const unmasked = new Uint8Array(len);
+	for (let i = 0; i < len; i++) {
+		unmasked[i] = buffer[i + 4 + offset] ^ buffer[i % 4 + offset];
 	}
 	return unmasked;
 }
@@ -204,15 +226,6 @@ function getLenBytes(len) {
 	throw new Error("Payload length can not be 32 bit or longer");
 }
 
-// Makes a WebSocket frame using specified opCode and containing payload
-function makeWebSocketFrame(opCode, payload) {
-	const arr = [ 0x80 | opCode, ...getLenBytes(payload.length) ];
-	for (let i = 0; i < payload.length; i++) {
-		arr.push(payload.charCodeAt(i));
-	}
-	return new Uint8Array(arr);
-}
-
 /**
  * Makes a WebSocket text frame containing the payload
  * @param {string} payload The text content to send in the WebSocket frame
@@ -220,7 +233,26 @@ function makeWebSocketFrame(opCode, payload) {
  * @throws Has a payload larger than 32bit
  */
 function makeWebSocketTextFrame(payload) {
-	return makeWebSocketFrame(opCodes.text, payload);
+	const arr = [ 0x80 | opCodes.text, ...getLenBytes(payload.length) ];
+	for (let i = 0; i < payload.length; i++) {
+		arr.push(payload.charCodeAt(i));
+	}
+	return new Uint8Array(arr);
+}
+
+/**
+ * Make a WebSocket binary frame containing the payload
+ * @param {ArrayBuffer} payload The binary content to send in the WebSocket frame
+ * @returns {ArrayBuffer} The WebSocket frame containing the payload
+ * @throws Has a payload largeer than 32bit
+ * @todo Might be better to spread payload into array at buffer construction and skip loop
+ */
+function makeWebSocketBinaryFrame(payload) {
+	return new Uint8Array([
+		0x80 | opCodes.binary,
+		...getLenBytes(payload.length),
+		...payload
+	]);
 }
 
 /**
@@ -293,10 +325,12 @@ module.exports = {
 	getWebSocketOpCode,
 	opCodes,
 	getWebSocketTextPayload,
+	getWebSocketBinaryPayload,
 	getWebSocketCloseCode,
 	getWebSocketCloseReason,
 	makeWebSocketPingResponse,
 	makeWebSocketTextFrame,
+	makeWebSocketBinaryFrame,
 	makeWebSocketCloseFrame,
 	makeWebSocketPingFrame
 };
