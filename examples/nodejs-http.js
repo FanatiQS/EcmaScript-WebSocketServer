@@ -5,7 +5,6 @@ const {
 	opCodes,
 	getWebSocketTextPayload,
 	makeWebSocketCloseFrame,
-	bufferToString,
 	makeWebSocketTextFrame,
 	makeWebSocketPingFrame,
 	getWebSocketCloseCode,

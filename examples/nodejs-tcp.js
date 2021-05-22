@@ -1,19 +1,19 @@
 const {
+	parseHttp,
+	makeHttpHtmlResponse,
 	isWebSocketUpgrade,
 	makeWebSocketUpgradeResponse,
 	getWebSocketOpCode,
 	opCodes,
 	getWebSocketTextPayload,
-	makeWebSocketCloseFrame,
-	bufferToString,
-	makeWebSocketTextFrame,
-	makeWebSocketPingFrame,
-	parseHttp,
-	makeHttpHtmlResponse,
-	makeHttpResponse,
+	getWebSocketBinaryPayload,
 	getWebSocketCloseCode,
 	getWebSocketCloseReason,
-	makeHttpHeaderResponse
+	makeWebSocketTextFrame,
+	makeWebSocketBinaryFrame,
+	makeWebSocketCloseFrame,
+	makeWebSocketPingFrame,
+	makeWebSocketPingResponse
 } = require('../src/index.js');
 
 const net = require('net');
