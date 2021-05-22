@@ -24,6 +24,9 @@ This readme is a mess and needs ALOT of love.
 
 Functions are documented with JSDoc.
 
+# The Sha1 and Base64
+This library uses modified versions of other libraries for Sha1 and Base64. The functions are modified to only support what is needed for the length and content it is going to be used for. When "warmed up", it is actually faster than the built-in crypto functions in NodeJS.
+
 # todo
 * Add Error catching in examples
 * Make sure http proxies work
