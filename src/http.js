@@ -5,15 +5,6 @@
  */
 
 /**
- * Converts a buffer to a string
- * @param {ArrayBuffer} buffer The buffer to convert to a string
- * @returns {string} The buffer converted to a string
- */
-function bufferToString(buffer) {
-	return String.fromCharCode(...buffer);
-}
-
-/**
  * Converts a string to a buffer
  * @param {string} str The string to convert to a buffer
  * @returns {ArrayBuffer} The string converted to a buffer
@@ -48,7 +39,7 @@ function stringToBuffer(str) {
  */
 function parseHttp(buffer) {
 	// Splits up data on linebreaks
-	const splitted = bufferToString(buffer).split('\r\n');
+	const splitted = String.fromCharCode(...buffer).split('\r\n');
 
 	// Gets data from status line
 	const [ method, url, httpVersion ] = splitted.shift().split(' ');
