@@ -67,7 +67,7 @@ server.on('upgrade', (req, socket) => {
 			opCode = getWebSocketOpCode(data);
 		}
 		catch (err) {
-			socket.write(err.response);
+			socket.write(makeWebSocketCloseFrame(err.closeCode));
 			return;
 		}
 

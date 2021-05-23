@@ -90,28 +90,28 @@ function getWebSocketOpCode(buffer) {
 	// Does not support fragmented frames
 	if (!(buffer[0] & 0x80)) {
 		const err = new Error('This WebSocket implementation does not support fragmented frames');
-		err.response = makeWebSocketCloseFrame(1003);
+		err.closeCode = 1003;
 		throw err;
 	}
 
 	// WebSocket rsv bits should be 0 when not used by extension
 	if (buffer[0] & 0x70) {
 		const err = new Error('Reserved bits are not used and must be 0');
-		err.response = makeWebSocketCloseFrame(1002);
+		err.closeCode = 1002;
 		throw err;
 	}
 
 	// Ensures payload is masked
 	if (!(buffer[1] & 0x80)) {
 		const err = new Error("WebSocket payload from clients to server must be masked");
-		err.response = makeWebSocketCloseFrame(1002);
+		err.closeCode = 1002;
 		throw err;
 	}
 
 	// Ensures control frame has a length under 126
 	if (buffer[0] & 0x08 && (buffer[1] & 0x7F) > 125) {
 		const err = new Error("WebSocket control frame can not have payload lengths longer than 125");
-		err.response = makeWebSocketCloseFrame(1002);
+		err.closeCode = 1002;
 		throw err;
 	}
 
