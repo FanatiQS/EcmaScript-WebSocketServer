@@ -66,11 +66,11 @@ function isWebSocketUpgrade(req) {
  */
 function makeFailedHttpUpgradeResponse(err) {
 	switch (err.code) {
-		"INVALID_WS_UPGR": return makeHttpHeaderResponse(426, { Upgrade: "websocket" });
-		"INVALID_METHOD": return makeHttpResponse(400);
-		"INVALID_HTTP_VERSION": return makeHttpResponse(400);
-		"INVALID_WS_VERSION": return makeHttpHeaderResponse(426, { ["Sec-WebSocket-Version"]: 13 });
-		"INVALID_WS_KEY": return makeHttpResponse(400);
+		case "INVALID_WS_UPGR": return makeHttpHeaderResponse(426, { Upgrade: "websocket" });
+		case "INVALID_METHOD": return makeHttpResponse(400);
+		case "INVALID_HTTP_VERSION": return makeHttpResponse(400);
+		case "INVALID_WS_VERSION": return makeHttpHeaderResponse(426, { ["Sec-WebSocket-Version"]: 13 });
+		case "INVALID_WS_KEY": return makeHttpResponse(400);
 	}
 	throw new Error("No Error or invalid error code");
 }
