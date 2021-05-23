@@ -25,39 +25,55 @@ function isWebSocketUpgrade(req) {
 		req.headers.upgrade.toLowerCase() !== 'websocket'
 	) {
 		const err = new Error("This WebSocket implementation can not handle HTTP upgrades to anything other than the WebSocket protocol");
-		err.response = makeHttpHeaderResponse(426, { Upgrade: "websocket" });
+		err.code = "INVALID_WS_UPGR";
 		throw err;
 	}
 
 	// Spec only allows GET requests for upgrade
 	if (typeof req.method !== 'string' || req.method.toLowerCase() !== 'get') {
 		const err = new Error("WebSocket upgrades must be GET requests");
-		err.response = makeHttpResponse(400);
+		err.code = "INVALID_METHOD";
 		throw err;
 	}
 
 	// Spec only allows http 1.1 or newer
 	if (req.httpVersion < 1.1) {
 		const err = new Error("HTTP version must be at least 1.1");
-		err.response = makeHttpResponse(400);
+		err.code = "INVALID_HTTP_VERSION"
 		throw err;
 	}
 
 	// Spec has only defined WebSocket version 13
 	if (req.headers['sec-websocket-version'] != 13) {
 		const err = new Error("Only allows WebSocket version 13");
-		err.response = makeHttpHeaderResponse(426, { ["Sec-WebSocket-Version"]: 13 });
+		err.code = "INVALID_WS_VERSION";
 		throw err;
 	}
 
 	// Spec requires websocket key to be defined
 	if (typeof req.headers['sec-websocket-key'] !== 'string') {
 		const err = new Error("Missing WebSocket key");
-		err.response = makeHttpResponse(400);
+		err.code = "INVALID_WS_KEY";
 		throw err;
 	}
 
 	return true;
+}
+
+/**
+ * @param {Error} err An error from isWebSocketUpgrade function
+ * @returns {string} An HTTP response form that error
+ * @throws Error is not from isWebSocketUpgrade function
+ */
+function makeFailedHttpUpgradeResponse(err) {
+	switch (err.code) {
+		"INVALID_WS_UPGR": return makeHttpHeaderResponse(426, { Upgrade: "websocket" });
+		"INVALID_METHOD": return makeHttpResponse(400);
+		"INVALID_HTTP_VERSION": return makeHttpResponse(400);
+		"INVALID_WS_VERSION": return makeHttpHeaderResponse(426, { ["Sec-WebSocket-Version"]: 13 });
+		"INVALID_WS_KEY": return makeHttpResponse(400);
+	}
+	throw new Error("No Error or invalid error code");
 }
 
 /**
