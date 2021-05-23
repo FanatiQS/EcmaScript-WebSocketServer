@@ -10,7 +10,6 @@ const makeAccept = require('./sha1b64.js');
  * @throws Is WebSocket upgrade but HTTP version is not 1.1 or higher
  * @throws Is WebSocket upgrade but WebSocket version is not 13
  * @throws Is WebSocket upgrade but WebSocket key header is not a string
- * @todo switch from having response on error object to using a function to get http response from error (use err.code to identify error)
  */
 function isWebSocketUpgrade(req) {
 	// Retuns false for non websocket upgrades
@@ -339,6 +338,7 @@ function makeWebSocketPingResponse(ping) {
 module.exports = {
 	isWebSocketUpgrade,
 	makeWebSocketUpgradeResponse,
+	makeFailedHttpUpgradeResponse,
 	getWebSocketOpCode,
 	opCodes,
 	getWebSocketTextPayload,
