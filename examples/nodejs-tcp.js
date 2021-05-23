@@ -3,6 +3,7 @@ const {
 	makeHttpHtmlResponse,
 	isWebSocketUpgrade,
 	makeWebSocketUpgradeResponse,
+	makeFailedHttpUpgradeResponse,
 	getWebSocketOpCode,
 	opCodes,
 	getWebSocketTextPayload,
@@ -34,7 +35,7 @@ const server = net.createServer((socket) => {
 				isWebSocket = isWebSocketUpgrade(req);
 			}
 			catch (err) {
-				socket.end(err.response);
+				socket.end(makeFailedHttpUpgradeResponse(err));
 				return;
 			}
 

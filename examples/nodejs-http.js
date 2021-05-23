@@ -1,6 +1,7 @@
 const {
 	isWebSocketUpgrade,
 	makeWebSocketUpgradeResponse,
+	makeFailedHttpUpgradeResponse,
 	getWebSocketOpCode,
 	opCodes,
 	getWebSocketTextPayload,
@@ -53,7 +54,7 @@ server.on('upgrade', (req, socket) => {
 		isWebSocketUpgrade(req);
 	}
 	catch (err) {
-		socket.end(err.response);
+		socket.end(makeFailedHttpUpgradeResponse(err));
 		return;
 	}
 
