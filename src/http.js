@@ -129,7 +129,6 @@ function makeHttpHeaderResponse(code, headers) {
 
 //!!
 module.exports = {
-	bufferToString,
 	stringToBuffer,
 	parseHttp,
 	isSameOrigin,
