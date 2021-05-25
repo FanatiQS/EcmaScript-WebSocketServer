@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @typedef {ArrayBuffer} Uint8Array
  * As an argument, it can be anything iterable containing integers

@@ -1,5 +1,6 @@
 const { makeHttpResponse } = require("./http.js");
 const makeAccept = require('./sha1b64.js');
+'use strict';
 
 /**
  * Checks if request is a WebSocket upgrade
