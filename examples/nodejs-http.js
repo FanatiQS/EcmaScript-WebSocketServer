@@ -5,11 +5,14 @@ const {
 	getWebSocketOpCode,
 	opCodes,
 	getWebSocketTextPayload,
-	makeWebSocketCloseFrame,
-	makeWebSocketTextFrame,
-	makeWebSocketPingFrame,
+	getWebSocketBinaryPayload,
 	getWebSocketCloseCode,
-	getWebSocketCloseReason
+	getWebSocketCloseReason,
+	makeWebSocketTextFrame,
+	makeWebSocketBinaryFrame,
+	makeWebSocketCloseFrame,
+	makeWebSocketPingFrame,
+	makeWebSocketPingResponse
 } = require('../src/index.js');
 
 const http = require('http');
