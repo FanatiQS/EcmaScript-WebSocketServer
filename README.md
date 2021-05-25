@@ -88,3 +88,4 @@ This library uses modified versions of other libraries for Sha1 and Base64. The 
 * Should the server close socket on close frame from client? In spec, it said that the initiating peer closes the socket
 * Add /doc from jsdoc. Would be great to use github actions.
 * Compare length of WebSocket payload and its offset with the actual length of the buffered chunk. They should be the same but might not be. How should errors like this be handled? Let implementor buffer the current chunk until the next?
+* Find a way to get rid of package.json, keep .js file extension and still have nodejs examples work with src files.
