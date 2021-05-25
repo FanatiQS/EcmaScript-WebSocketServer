@@ -11,7 +11,7 @@
  * @param {string} str The string to convert to a buffer
  * @returns {ArrayBuffer} The string converted to a buffer
  */
-function stringToBuffer(str) {
+export function stringToBuffer(str) {
 	const len = str.length;
 	const buffer = new Uint8Array(len);
 	for (let i = 0; i < len; i++) {
@@ -39,7 +39,7 @@ function stringToBuffer(str) {
  * @todo this assumes that the http request is contained within a single tcp packet
  * @todo add some error handling to make sure it is http protocol
  */
-function parseHttp(buffer) {
+export function parseHttp(buffer) {
 	// Splits up data on linebreaks
 	const splitted = String.fromCharCode(...buffer).split('\r\n');
 
@@ -70,7 +70,7 @@ function parseHttp(buffer) {
  * @param {HttpRequest} req The HTTP request to ensure comes from same origin
  * @returns {boolean} If the request is from same origin
  */
-function isSameOrigin(origin, req) {
+export function isSameOrigin(origin, req) {
 	return headers.origin === origin.toLowerCase();
 }
 
@@ -79,7 +79,7 @@ function isSameOrigin(origin, req) {
  * Customizable to add new HTTP status codes
  * @todo add jsdoc documentation
  */
-const httpStatusCodes = {
+export const httpStatusCodes = {
 	200: "OK",
 	400: "Bad Request",
 	403: "Forbidden",
@@ -93,7 +93,7 @@ const httpStatusCodes = {
 * @param {boolan} done Indicates if the HTTP response is complete or should be concatenatable
 * @returns {string} The HTTP response
 */
-function makeHttpResponse(code, done) {
+export function makeHttpResponse(code, done) {
 	return "HTTP/1.1 " + code + " " + httpStatusCodes[code] + "\r\n" +
 		"Connection: close\r\n" +
 		"Date: " + new Date() + "\r\n" +
@@ -106,7 +106,7 @@ function makeHttpResponse(code, done) {
  * @param {number} [code=200] The HTTP status code to use. Defaults to 200
  * @returns {string} The HTTP response containing the body
  */
-function makeHttpHtmlResponse(body, code = 200) {
+export function makeHttpHtmlResponse(body, code = 200) {
 	return makeHttpResponse(code, false) +
 		"Content-Type: text/html\r\n" +
 		"Content-Length: " + body.length + "\r\n" +
@@ -121,21 +121,8 @@ function makeHttpHtmlResponse(body, code = 200) {
  * @param {Object} headers The headers to insert into the HTTP response
  * @returns {string} The HTTP response
  */
-function makeHttpHeaderResponse(code, headers) {
+export function makeHttpHeaderResponse(code, headers) {
 	return makeHttpResponse(code, false) +
 		Object.entries(headers).map(([ key, value ]) => key + ': ' + value).join('\r\n') +
 		"\r\n\r\n";
 }
-
-
-
-//!!
-module.exports = {
-	stringToBuffer,
-	parseHttp,
-	isSameOrigin,
-	httpStatusCodes,
-	makeHttpResponse,
-	makeHttpHtmlResponse,
-	makeHttpHeaderResponse
-};

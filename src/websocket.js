@@ -1,6 +1,7 @@
-const { makeHttpResponse } = require("./http.js");
-const makeAccept = require('./sha1b64.js');
 'use strict';
+
+import { makeHttpResponse } from "./http.js";
+import makeAccept from './sha1b64.js';
 
 /**
  * Checks if request is a WebSocket upgrade
@@ -12,7 +13,7 @@ const makeAccept = require('./sha1b64.js');
  * @throws Is WebSocket upgrade but WebSocket version is not 13
  * @throws Is WebSocket upgrade but WebSocket key header is not a string
  */
-function isWebSocketUpgrade(req) {
+export function isWebSocketUpgrade(req) {
 	// Retuns false for non websocket upgrades
 	if (
 		typeof req.headers.connection !== 'string' ||
@@ -65,7 +66,7 @@ function isWebSocketUpgrade(req) {
  * @returns {string} An HTTP response form that error
  * @throws Error is not from isWebSocketUpgrade function
  */
-function makeFailedHttpUpgradeResponse(err) {
+export function makeFailedHttpUpgradeResponse(err) {
 	switch (err.code) {
 		case "INVALID_WS_UPGR": return makeHttpHeaderResponse(426, { Upgrade: "websocket" });
 		case "INVALID_METHOD": return makeHttpResponse(400);
@@ -81,7 +82,7 @@ function makeFailedHttpUpgradeResponse(err) {
  * @param {HttpRequest} req The HTTP request known to be an upgrade to WebSocket
  * @returns {string} The HTTP response to upgrade to WebSocket
  */
-function makeWebSocketUpgradeResponse(req) {
+export function makeWebSocketUpgradeResponse(req) {
 	return "HTTP/1.1 101 Switching Protocols\r\n" +
 		"Connection: Upgrade\r\n" +
 		"Upgrade: websocket\r\n" +
@@ -102,7 +103,7 @@ function makeWebSocketUpgradeResponse(req) {
  * @throws Payload is not masked
  * @throws Control frame has message longer than 125
  */
-function getWebSocketOpCode(buffer) {
+export function getWebSocketOpCode(buffer) {
 	// Does not support fragmented frames
 	if (!(buffer[0] & 0x80)) {
 		const err = new Error('This WebSocket implementation does not support fragmented frames');
@@ -143,7 +144,7 @@ function getWebSocketOpCode(buffer) {
  * ping: server MUST send a pong back to client with makeWebSocketPingResponse. The WebSocket client in browsers can not send pings to the server as far as I know, so this feature might not ever be used.
  * pong: get text content with getWebSocketTextFrame if a payload was sent with the ping (currently sending payload with ping is not implemented)
  */
-const opCodes = {
+export const opCodes = {
 	text: 0x01,
 	binary: 0x02,
 	close: 0x08,
@@ -183,7 +184,7 @@ function getOffsetAndLen(buffer) {
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
  * @returns {string} Unmasked payload as a string
  */
-function getWebSocketTextPayload(buffer) {
+export function getWebSocketTextPayload(buffer) {
 	const [ offset, len ] = getOffsetAndLen(buffer);
 
 	// Unmasks payload to string
@@ -199,7 +200,7 @@ function getWebSocketTextPayload(buffer) {
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
  * @returns {ArrayBuffer} Unmasked payload as an array buffer
  */
-function getWebSocketBinaryPayload(buffer) {
+export function getWebSocketBinaryPayload(buffer) {
 	const [ offset, len ] = getOffsetAndLen(buffer);
 
 	// Unmasks payload to an array buffer
@@ -215,7 +216,7 @@ function getWebSocketBinaryPayload(buffer) {
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
  * @returns {number|undefined} The status code received from the client or undefined if no there is no code
  */
-function getWebSocketCloseCode(buffer) {
+export function getWebSocketCloseCode(buffer) {
 	if (!(buffer[1] & 0x7F)) return undefined;
 	return ((buffer[6] ^ buffer[2]) << 8) + buffer[7] ^ buffer[3];
 }
@@ -225,7 +226,7 @@ function getWebSocketCloseCode(buffer) {
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
  * @returns {string} Unmasked payload as a string
  */
-function getWebSocketCloseReason(buffer) {
+export function getWebSocketCloseReason(buffer) {
 	const len = buffer[1] & 0x7F;
 	let unmasked = '';
 	for (let i = 2; i < len; i++) {
@@ -249,7 +250,7 @@ function getLenBytes(len) {
  * @returns {ArrayBuffer} The WebSocket frame containing the payload
  * @throws Has a payload larger than 32bit
  */
-function makeWebSocketTextFrame(payload) {
+export function makeWebSocketTextFrame(payload) {
 	const arr = [ 0x80 | opCodes.text, ...getLenBytes(payload.length) ];
 	for (let i = 0; i < payload.length; i++) {
 		arr.push(payload.charCodeAt(i));
@@ -263,7 +264,7 @@ function makeWebSocketTextFrame(payload) {
  * @returns {ArrayBuffer} The WebSocket frame containing the payload
  * @throws Has a payload largeer than 32bit
  */
-function makeWebSocketBinaryFrame(payload) {
+export function makeWebSocketBinaryFrame(payload) {
 	return new Uint8Array([
 		0x80 | opCodes.binary,
 		...getLenBytes(payload.length),
@@ -279,7 +280,7 @@ function makeWebSocketBinaryFrame(payload) {
  * @throws Code is ouside range of valid close codes
  * @throws Reason argument is defined but not code argument
  */
-function makeWebSocketCloseFrame(code, reason) {
+export function makeWebSocketCloseFrame(code, reason) {
 	const arr = [ 0x88, 0x00 ];
 
 	// Adds close code if available
@@ -311,7 +312,7 @@ function makeWebSocketCloseFrame(code, reason) {
  * @returns {ArrayBuffer} The ping frame
  * @todo Include payload in ping frame
  */
-function makeWebSocketPingFrame() {
+export function makeWebSocketPingFrame() {
 	return new Uint8Array([ 0x89, 0x00 ]);
 }
 
@@ -320,7 +321,7 @@ function makeWebSocketPingFrame() {
  * @param {ArrayBuffer} ping The buffer from the ping request
  * @returns {ArrayBuffer} The pong frame
  */
-function makeWebSocketPingResponse(ping) {
+export function makeWebSocketPingResponse(ping) {
 	// Creates pong response
 	const pong = new Uint8Array(ping.length);
 	pong[0] = 0x8A;
@@ -332,23 +333,3 @@ function makeWebSocketPingResponse(ping) {
 
 	return pong;
 }
-
-
-
-//!! replace later with es6 exports
-module.exports = {
-	isWebSocketUpgrade,
-	makeWebSocketUpgradeResponse,
-	makeFailedHttpUpgradeResponse,
-	getWebSocketOpCode,
-	opCodes,
-	getWebSocketTextPayload,
-	getWebSocketBinaryPayload,
-	getWebSocketCloseCode,
-	getWebSocketCloseReason,
-	makeWebSocketPingResponse,
-	makeWebSocketTextFrame,
-	makeWebSocketBinaryFrame,
-	makeWebSocketCloseFrame,
-	makeWebSocketPingFrame
-};

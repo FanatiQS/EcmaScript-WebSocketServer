@@ -1,4 +1,4 @@
-const {
+import {
 	isWebSocketUpgrade,
 	makeWebSocketUpgradeResponse,
 	makeFailedHttpUpgradeResponse,
@@ -14,8 +14,9 @@ const {
 	makeWebSocketPingFrame,
 	makeWebSocketPingResponse
 } = require('../src/index.js');
+from '../src/websocket.js';
 
-const http = require('http');
+import http from 'http';
 
 
 

@@ -1,6 +1,9 @@
-const {
+import {
 	parseHttp,
-	makeHttpHtmlResponse,
+	makeHttpHtmlResponse
+} from '../src/http.js';
+
+import {
 	isWebSocketUpgrade,
 	makeWebSocketUpgradeResponse,
 	makeFailedHttpUpgradeResponse,
@@ -15,9 +18,9 @@ const {
 	makeWebSocketCloseFrame,
 	makeWebSocketPingFrame,
 	makeWebSocketPingResponse
-} = require('../src/index.js');
+} from "../src/websocket.js";
 
-const net = require('net');
+import net from 'net';
 
 
 
