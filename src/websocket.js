@@ -323,12 +323,14 @@ export function makeWebSocketPingFrame() {
  */
 export function makeWebSocketPingResponse(ping) {
 	// Creates pong response
-	const pong = new Uint8Array(ping.length);
+	const len = ping[1] & 0x7F;
+	const pong = new Uint8Array(len + 2);
 	pong[0] = 0x8A;
+	pong[1] = len;
 
 	// Transfers content of ping request to pong response
-	for (let i = ping.length - 1; i > 0; i--) {
-		pong[i] = ping[i];
+	for (let i = 0; i < len; i++) {
+		pong[i + 2] = ping[i + 4 + 2] ^ ping[i % 4 + 2];
 	}
 
 	return pong;
