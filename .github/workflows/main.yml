@@ -1,0 +1,21 @@
+name: JSDox
+
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+
+jobs:
+  build-doc:
+    name: Generate JSDoc documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate JSDoc documentation
+        uses: brunokrauss/jsdoc-action@3
+        with:
+          jsdoc-path: 'src'
