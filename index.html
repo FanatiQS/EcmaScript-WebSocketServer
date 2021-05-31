@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Home - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketBinaryPayload">getWebSocketBinaryPayload</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketCloseCode">getWebSocketCloseCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketCloseReason">getWebSocketCloseReason</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketOpCode">getWebSocketOpCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketTextPayload">getWebSocketTextPayload</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#httpStatusCodes">httpStatusCodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isSameOrigin">isSameOrigin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWebSocketUpgrade">isWebSocketUpgrade</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeFailedHttpUpgradeResponse">makeFailedHttpUpgradeResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpHeaderResponse">makeHttpHeaderResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpHtmlResponse">makeHttpHtmlResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpResponse">makeHttpResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketBinaryFrame">makeWebSocketBinaryFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketCloseFrame">makeWebSocketCloseFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketPingFrame">makeWebSocketPingFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketPingResponse">makeWebSocketPingResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketTextFrame">makeWebSocketTextFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketUpgradeResponse">makeWebSocketUpgradeResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#opCodes">opCodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#parseHttp">parseHttp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#stringToBuffer">stringToBuffer</a></span></li>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>EcmaScript WebSocket and HTTP Server</h1>
+<p>This is a low level WebSocket and HTTP server side library built using only EcmaScript 2015 features. While there are more fully featured WebSocket servers built specifically for their environments, this library aims to make a WebSocket server that can be implemented anywhere there is javascript with access to a TCP server. This makes it a lot easier to port from one environment to another or to use with a javascript runtime in your own application (only needing to add TCP bindings).</p>
+<h1>Usage</h1>
+<p>To use this library, there needs to be some kind of socket server available for javascript. It can work with TCP sockets or HTTP sockets that have access to the underlying TCP socket.</p>
+<h2>Initializing a WebSocket connection</h2>
+<p>Since a WebSocket connection starts of as an HTTP upgrade, we first need to handle an HTTP request. If you are using TCP data, you first needs to parsed the HTTP request with the function <code>parseHttp</code>. That function takes an array buffer as its argument. Technically anything in this library requiring a buffer as its argument can be anything iterable containing the character codes, but a Uint8Array is the most appropriate type. It returns a request object that contains the method, url, http version and headers. If you are getting data from an HTTP server, make sure the data is structured the same way as the request object from <code>parseHttp</code>.</p>
+<p>If you want to limit connection to same origin only, there is a function to help with that. <code>isSameOrigin</code> takes 2 arguments, the request and the current origin. It returns a boolean if the origin is the same.</p>
+<p>After this we have to check if the request is a WebSocket upgrade. This is done with the function <code>isWebSocketUpgrade</code>, it takes the request object as its arguments and returns a boolean if the request is an upgrade or not. If the request is an upgrade but does not conform to the WebSocket upgrade requirements, it will throw an error. [Add more information about getting HTTP response for errors here]. If the request is not a WebSocket upgrade. You can do whatever you want with it. For TCP sockets, there are functions for creating your own HTTP responses to send back, more info in the next chapter.</p>
+<p>If <code>isWebSocketUpgrade</code> returned true, you need to send back a response that can be generated with <code>makeWebSocketUpgradeResponse</code> and it takes the request object as its argument. This response should be sent to the client and if the TCP socket only takes array buffers, there is a helper function <code>stringToBuffer</code> to convert the upgrade response from a string to a buffer. After this response is sent, the client and server must now start using the WebSocket protocol for all further communication.</p>
+<h2>Make non-WebSocket HTTP response</h2>
+<p>For TCP sockets, there are function for making HTTP responses.</p>
+<ul>
+<li>If you want to use an http status code that does not exist in <code>httpStatusCodes</code>, you should it yourself so the response gets a reason text.</li>
+<li>If your TCP socket can only write array buffers back, <code>stringToBuffer</code> can convert the HTTP response string to an array buffer.</li>
+<li><code>makeHttpHtmlResponse</code> takes an HTML string and puts it in an HTTP response. By default, it uses status code 200 OK but it can be customised with the second argument ().</li>
+<li><code>makeHttpHeaderResponse</code> takes an HTTP status code and an object of headers. An HTTP body can be concatenated on to the returned string as long as the appropriate headers are set.</li>
+</ul>
+<h2>Parsing incoming WebSocket data</h2>
+<p>To parse the WebSocket data, we start by getting the opCode with the function <code>getWebSocketOpCode</code> with the buffer from the TCP socket as the argument. This function returns the opCode (all opCodes used can be found in <code>opCodes</code>) or throws if the WebSocket frame has malformed or used unsupported features. [Add more information about getting HTTP response for errors here].</p>
+<h3>Close</h3>
+<p>For close frames, there is one things the server MUST do. If the close was initiated by the client (the server did not send a close frame), the server MUST send a close frame back to the client. If the close frame is a response to a server initiated close, the server should close the TCP socket.</p>
+<h3>Ping</h3>
+<p>If a server gets a ping frame, it MUST send back a pong frame. This can easily be created with the <code>makeWebSocketPingResponse</code> function. Ping frames can also contain a payload. Not exactly sure what for.</p>
+<h3>Pong</h3>
+<p>This is just a response for a ping request sent to the client.</p>
+<h3>Text</h3>
+<p>This is a text frame and the content can be extracted using the <code>getWebSocketTextPayload</code> function.</p>
+<h3>Binary</h3>
+<p>This is a binary frame and the content can be extracted using the <code>getWebSocketBinaryPayload</code> function.</p>
+<h2>Sending WebSocket data</h2>
+<h3>Close</h3>
+<p>Close frames can be created using <code>makeWebSocketCloseFrame</code> and can take 2 arguments. The first one is a close code that follows the WebSocket spec for how they are used. The second arguments is a close reason and requires the close code to be set.</p>
+<p>Throws error if reason is longer than 125 characters or if close code is outside valid range.</p>
+<p>If a close frame is sent, the TCP socket should not be closed until the server receives a close frame back from the server.</p>
+<h3>Ping</h3>
+<p>Ping frames can be created using <code>makeWebSocketPingFrame</code> and has no arguments.</p>
+<h3>Text</h3>
+<p>Text frames can be created using <code>makeWebSocketTextFrame</code> and it takes a string as its argument.</p>
+<p>Throws error if contents length is 32 bit or longer</p>
+<h3>Binary</h3>
+<p>Binary frames can be created using <code>makeWebSocketBinaryFrame</code> and it takes an array buffer as its argument.</p>
+<p>Throws error if contents length is 32 bit or longer</p>
+<h1>Not supported WebSocket features</h1>
+<h2>HTTP stream</h2>
+<p>Currently, the HTTP parser only works with the entire HTTP request in the buffer in one shot. There is no support for getting the HTTP request in multiple TCP packets. This is a feature I would like to get working</p>
+<h2>Fragmented WebSocket frames</h2>
+<p>WebSocket frames can be fragmented and split into multiple frames. This feature is not supported in this library and is currently not under consideration. If it is a feature you want, open an issue on Github.</p>
+<h2>WebSocket extensions</h2>
+<p>The WebSocket protocol is built to be extended with extra functions. This is not supported in this library and is currently not under consideration. If it is a feature you want, open an issue on Github.</p>
+<h2>WebSocket subprotocols</h2>
+<p>During the WebSocket handshake, the client and the server can agree on a specific subprotocol to use. This is not supported in this library and is currently not under consideration. If it is a feature you want, open an issue on Github.</p>
+<h2>Payload length of 4 294 967 296 or longer</h2>
+<p>The WebSocket protocol supports payload lengths up to 64 bit values. Unfortunately, javascript clamps its values to 32 bit when doing bit shifting, so the maximum length for payload in this library is 32 bit (4 294 967 296)</p>
+<h2>Ping frame payload</h2>
+<p>Ping frames can currently not be created with a payload. This is mainly because I don't know how it would be used and for what. If it is a feature you want, open an issue on Github.</p>
+<h1>The Sha1 and Base64</h1>
+<p>This library uses modified versions of other libraries for Sha1 and Base64. The functions are modified to only support what is needed for the length and content it is going to be used for. When &quot;warmed up&quot;, it is actually faster than the native built-in crypto functions in NodeJS.</p>
+<h1>TODO</h1>
+<ul>
+<li>Add streaming support for HTTP (multipacket)</li>
+<li>Test error catching in examples</li>
+<li>Make sure http proxies work</li>
+<li>Make sure http filtering works (whatever that is, but it was mentioned in the spec)</li>
+<li>A good way for implementors to be forced to handle control frame correctly and to not send data after socket is closed. This might require a constructor. A constructor approach would be another way of doing it and only using the function should still be valid.</li>
+<li>Should the server close socket on close frame from client? In spec, it said that the initiating peer closes the socket</li>
+<li>Add /doc from jsdoc. Would be great to use github actions.</li>
+<li>Compare length of WebSocket payload and its offset with the actual length of the buffered chunk. They should be the same but might not be. How should errors like this be handled? Let implementor buffer the current chunk until the next?</li>
+<li>Find a way to get rid of package.json, keep .js file extension and still have nodejs examples work with src files.</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Mon May 31 2021 09:16:22 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

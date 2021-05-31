@@ -1,4 +1,45 @@
-'use strict';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>websocket.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketBinaryPayload">getWebSocketBinaryPayload</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketCloseCode">getWebSocketCloseCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketCloseReason">getWebSocketCloseReason</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketOpCode">getWebSocketOpCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketTextPayload">getWebSocketTextPayload</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#httpStatusCodes">httpStatusCodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isSameOrigin">isSameOrigin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWebSocketUpgrade">isWebSocketUpgrade</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeFailedHttpUpgradeResponse">makeFailedHttpUpgradeResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpHeaderResponse">makeHttpHeaderResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpHtmlResponse">makeHttpHtmlResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpResponse">makeHttpResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketBinaryFrame">makeWebSocketBinaryFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketCloseFrame">makeWebSocketCloseFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketPingFrame">makeWebSocketPingFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketPingResponse">makeWebSocketPingResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketTextFrame">makeWebSocketTextFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketUpgradeResponse">makeWebSocketUpgradeResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#opCodes">opCodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#parseHttp">parseHttp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#stringToBuffer">stringToBuffer</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">websocket.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
 import { makeHttpResponse } from "./http.js";
 import makeAccept from './sha1b64.js';
@@ -38,7 +79,7 @@ export function isWebSocketUpgrade(req) {
 	}
 
 	// Spec only allows http 1.1 or newer
-	if (req.httpVersion < 1.1) {
+	if (req.httpVersion &lt; 1.1) {
 		const err = new Error("HTTP version must be at least 1.1");
 		err.code = "INVALID_HTTP_VERSION"
 		throw err;
@@ -105,35 +146,35 @@ export function makeWebSocketUpgradeResponse(req) {
  */
 export function getWebSocketOpCode(buffer) {
 	// Does not support fragmented frames
-	if (!(buffer[0] & 0x80)) {
+	if (!(buffer[0] &amp; 0x80)) {
 		const err = new Error('This WebSocket implementation does not support fragmented frames');
 		err.closeCode = 1003;
 		throw err;
 	}
 
 	// WebSocket rsv bits should be 0 when not used by extension
-	if (buffer[0] & 0x70) {
+	if (buffer[0] &amp; 0x70) {
 		const err = new Error('Reserved bits are not used and must be 0');
 		err.closeCode = 1002;
 		throw err;
 	}
 
 	// Ensures payload is masked
-	if (!(buffer[1] & 0x80)) {
+	if (!(buffer[1] &amp; 0x80)) {
 		const err = new Error("WebSocket payload from clients to server must be masked");
 		err.closeCode = 1002;
 		throw err;
 	}
 
 	// Ensures control frame has a length under 126
-	if (buffer[0] & 0x08 && (buffer[1] & 0x7F) > 125) {
+	if (buffer[0] &amp; 0x08 &amp;&amp; (buffer[1] &amp; 0x7F) > 125) {
 		const err = new Error("WebSocket control frame can not have payload lengths longer than 125");
 		err.closeCode = 1002;
 		throw err;
 	}
 
 	// Returns op code
-	return buffer[0] & 0x0F;
+	return buffer[0] &amp; 0x0F;
 }
 
 /**
@@ -156,15 +197,15 @@ export const opCodes = {
 // @todo make sure payload length matches buffer length (offset + 4 + len === buffer.length). If buffer is too short, it should concat next chunk too. But that is compicated without instance.
 function getOffsetAndLen(buffer) {
 	// Gets payload length
-	let len = buffer[1] & 0x7F;
+	let len = buffer[1] &amp; 0x7F;
 
 	// Handles lengths up to 125 bytes
-	if (len < 126) {
+	if (len &lt; 126) {
 		return [ 2, len ];
 	}
 	// Handles lengths up to 16 bits
 	else if (len === 126) {
-		return [ 4, buffer[2] << 8 & buffer[3] ];
+		return [ 4, buffer[2] &lt;&lt; 8 &amp; buffer[3] ];
 	}
 	// Handles lengths up to 64 bit
 	else {
@@ -175,7 +216,7 @@ function getOffsetAndLen(buffer) {
 			throw err;
 		}
 
-		return [ 10, buffer[6] << 24 & buffer[7] << 16 & buffer[8] << 8 & buffer[9] ];
+		return [ 10, buffer[6] &lt;&lt; 24 &amp; buffer[7] &lt;&lt; 16 &amp; buffer[8] &lt;&lt; 8 &amp; buffer[9] ];
 	}
 }
 
@@ -189,7 +230,7 @@ export function getWebSocketTextPayload(buffer) {
 
 	// Unmasks payload to string
 	let unmasked = '';
-	for (let i = 0; i < len; i++) {
+	for (let i = 0; i &lt; len; i++) {
 		unmasked += String.fromCharCode(buffer[i + 4 + offset] ^ buffer[i % 4 + offset]);
 	}
 	return unmasked;
@@ -205,7 +246,7 @@ export function getWebSocketBinaryPayload(buffer) {
 
 	// Unmasks payload to an array buffer
 	const unmasked = new Uint8Array(len);
-	for (let i = 0; i < len; i++) {
+	for (let i = 0; i &lt; len; i++) {
 		unmasked[i] = buffer[i + 4 + offset] ^ buffer[i % 4 + offset];
 	}
 	return unmasked;
@@ -217,8 +258,8 @@ export function getWebSocketBinaryPayload(buffer) {
  * @returns {number|undefined} The status code received from the client or undefined if no there is no code
  */
 export function getWebSocketCloseCode(buffer) {
-	if (!(buffer[1] & 0x7F)) return undefined;
-	return ((buffer[6] ^ buffer[2]) << 8) + buffer[7] ^ buffer[3];
+	if (!(buffer[1] &amp; 0x7F)) return undefined;
+	return ((buffer[6] ^ buffer[2]) &lt;&lt; 8) + buffer[7] ^ buffer[3];
 }
 
 /**
@@ -227,9 +268,9 @@ export function getWebSocketCloseCode(buffer) {
  * @returns {string} Unmasked payload as a string
  */
 export function getWebSocketCloseReason(buffer) {
-	const len = buffer[1] & 0x7F;
+	const len = buffer[1] &amp; 0x7F;
 	let unmasked = '';
-	for (let i = 2; i < len; i++) {
+	for (let i = 2; i &lt; len; i++) {
 		unmasked += String.fromCharCode(buffer[i + 6] ^ buffer[i % 4 + 2]);
 	}
 	return unmasked;
@@ -237,10 +278,10 @@ export function getWebSocketCloseReason(buffer) {
 
 // Creates WebSocket length bytes for payload
 function getLenBytes(len) {
-	if (len < 126) return [ len ];
-	if (len < 65536) return [ 126, (len >> 8) & 0xff, len & 0xff ];
-	if (len < 4294967296) return [ 127, 0, 0, 0, 0,
-		(len >> 24) & 0xff, (len >> 16) & 0xff, (len >> 8) & 0xff, len & 0xff ];
+	if (len &lt; 126) return [ len ];
+	if (len &lt; 65536) return [ 126, (len >> 8) &amp; 0xff, len &amp; 0xff ];
+	if (len &lt; 4294967296) return [ 127, 0, 0, 0, 0,
+		(len >> 24) &amp; 0xff, (len >> 16) &amp; 0xff, (len >> 8) &amp; 0xff, len &amp; 0xff ];
 	throw new Error("Payload length can not be 32 bit or longer");
 }
 
@@ -252,7 +293,7 @@ function getLenBytes(len) {
  */
 export function makeWebSocketTextFrame(payload) {
 	const arr = [ 0x80 | opCodes.text, ...getLenBytes(payload.length) ];
-	for (let i = 0; i < payload.length; i++) {
+	for (let i = 0; i &lt; payload.length; i++) {
 		arr.push(payload.charCodeAt(i));
 	}
 	return new Uint8Array(arr);
@@ -287,14 +328,14 @@ export function makeWebSocketCloseFrame(code, reason) {
 	if (code != null) {
 		if (code > 4999) throw new Error("Invalid WebSocket close code");
 		arr[1] += 2;
-		arr.push(code >> 8, code & 0xFF);
+		arr.push(code >> 8, code &amp; 0xFF);
 
 		// Adds close reason if available
 		if (reason != null) {
 			if (reason.length > 123) throw new Error("WebSocket close reason too long");
 			const len = reason.length;
 			arr[1] += len;
-			for (let i = 0; i < len; i++) {
+			for (let i = 0; i &lt; len; i++) {
 				arr.push(reason.charCodeAt(i));
 			}
 		}
@@ -323,15 +364,34 @@ export function makeWebSocketPingFrame() {
  */
 export function makeWebSocketPingResponse(ping) {
 	// Creates pong response
-	const len = ping[1] & 0x7F;
+	const len = ping[1] &amp; 0x7F;
 	const pong = new Uint8Array(len + 2);
 	pong[0] = 0x8A;
 	pong[1] = len;
 
 	// Transfers content of ping request to pong response
-	for (let i = 0; i < len; i++) {
+	for (let i = 0; i &lt; len; i++) {
 		pong[i + 2] = ping[i + 4 + 2] ^ ping[i % 4 + 2];
 	}
 
 	return pong;
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Mon May 31 2021 09:16:22 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

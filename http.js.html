@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>http.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketBinaryPayload">getWebSocketBinaryPayload</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketCloseCode">getWebSocketCloseCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketCloseReason">getWebSocketCloseReason</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketOpCode">getWebSocketOpCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWebSocketTextPayload">getWebSocketTextPayload</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#httpStatusCodes">httpStatusCodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isSameOrigin">isSameOrigin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWebSocketUpgrade">isWebSocketUpgrade</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeFailedHttpUpgradeResponse">makeFailedHttpUpgradeResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpHeaderResponse">makeHttpHeaderResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpHtmlResponse">makeHttpHtmlResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeHttpResponse">makeHttpResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketBinaryFrame">makeWebSocketBinaryFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketCloseFrame">makeWebSocketCloseFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketPingFrame">makeWebSocketPingFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketPingResponse">makeWebSocketPingResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketTextFrame">makeWebSocketTextFrame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#makeWebSocketUpgradeResponse">makeWebSocketUpgradeResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#opCodes">opCodes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#parseHttp">parseHttp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#stringToBuffer">stringToBuffer</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">http.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+/**
+ * @typedef {Uint8Array} ArrayBuffer
+ * As an argument, it can be anything that is indexed containing integers, has a length property and is iterable
+ * As a return value, it is always a uint8array
+ */
+
+/**
+ * Converts a string to a buffer
+ * @param {string} str The string to convert to a buffer
+ * @returns {ArrayBuffer} The string converted to a buffer
+ */
+export function stringToBuffer(str) {
+	const len = str.length;
+	const buffer = new Uint8Array(len);
+	for (let i = 0; i &lt; len; i++) {
+		buffer[i] = str.charCodeAt(i);
+	}
+	return buffer;
+}
+
+/**
+ * The Request information for an HTTP request
+ * All header keys must be lower case
+ * @typedef {Object} HttpRequest
+ * @property {string} method The method for the HTTP request. Required to be `GET` if upgrading to WebSocket
+ * @property {number|string} httpVersion The version of the HTTP protocol used. Required to be `1.1` or higher if upgrading to WebSocket
+ * @property {string} headers.connection The header defining the connection type
+ * @property {string} headers.upgrade The header defining what protocol to upgrade to if connection is upgrade
+ * @property {string} headers.sec-websocket-version The version of the WebSocket protocol to use. Required to be `13` if upgrading to WebSocket
+ * @property {string} headers.sec-websocket-key The base64 16 byte random key generated by the client
+ */
+
+/**
+ * Parses an incomming HTTP request
+ * @param {ArrayBuffer} buffer The content of the request as an array buffer
+ * @returns {HttpRequest}
+ * @todo this assumes that the http request is contained within a single tcp packet
+ * @todo add some error handling to make sure it is http protocol
+ */
+export function parseHttp(buffer) {
+	// Splits up data on linebreaks
+	const splitted = String.fromCharCode(...buffer).split('\r\n');
+
+	// Gets data from status line
+	const [ method, url, httpVersion ] = splitted.shift().split(' ');
+
+	// Remove last empty line
+	splitted.pop();
+
+	// Converts header lines to key and value on object
+	const headers = {};
+	splitted.forEach((header) => {
+		const index = header.indexOf(':');
+		headers[header.slice(0, index).trim().toLowerCase()] = header.slice(index + 1).trim();
+	});
+
+	return {
+		method: method.toUpperCase(),
+		url: url.toLowerCase(),
+		httpVersion: httpVersion.slice(5),
+		headers
+	}
+}
+
+/**
+ * Makes sure HTTP request comes from same origin
+ * @param {string} origin The current origin
+ * @param {HttpRequest} req The HTTP request to ensure comes from same origin
+ * @returns {boolean} If the request is from same origin
+ */
+export function isSameOrigin(origin, req) {
+	return headers.origin === origin.toLowerCase();
+}
+
+/**
+ * The HTTP reasons
+ * Customizable to add new HTTP status codes
+ * @todo add jsdoc documentation
+ */
+export const httpStatusCodes = {
+	200: "OK",
+	400: "Bad Request",
+	403: "Forbidden",
+	404: "Not Found",
+	426: "Upgrade Required"
+}
+
+/**
+* Makes a simple HTTP response without a body
+* @param {number} code The HTTP status code to use
+* @param {boolan} done Indicates if the HTTP response is complete or should be concatenatable
+* @returns {string} The HTTP response
+*/
+export function makeHttpResponse(code, done) {
+	return "HTTP/1.1 " + code + " " + httpStatusCodes[code] + "\r\n" +
+		"Connection: close\r\n" +
+		"Date: " + new Date() + "\r\n" +
+		((done !== false) ? "\r\n" : "");
+}
+
+/**
+ * Makes a simple HTTP response with HTML content
+ * @param {string} body The HTML content to make an HTTP response for
+ * @param {number} [code=200] The HTTP status code to use. Defaults to 200
+ * @returns {string} The HTTP response containing the body
+ */
+export function makeHttpHtmlResponse(body, code = 200) {
+	return makeHttpResponse(code, false) +
+		"Content-Type: text/html\r\n" +
+		"Content-Length: " + body.length + "\r\n" +
+		"\r\n" +
+		body;
+}
+
+/**
+ * Makes a simple HTTP response with customizable headers
+ * A body can be concatenated onto the response if the correct headers are set manually
+ * @param {number} code The HTTP status code to use
+ * @param {Object} headers The headers to insert into the HTTP response
+ * @returns {string} The HTTP response
+ */
+export function makeHttpHeaderResponse(code, headers) {
+	return makeHttpResponse(code, false) +
+		Object.entries(headers).map(([ key, value ]) => key + ': ' + value).join('\r\n') +
+		"\r\n\r\n";
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Mon May 31 2021 09:16:22 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

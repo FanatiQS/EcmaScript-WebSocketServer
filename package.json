@@ -1,6 +1,0 @@
-{
-	"name": "EcmaScript-WebSocketServer",
-	"version": "0.1.0",
-	"description": "Pure JavaScript implementation of a WebSocket and HTTP Server handling TCP buffers",
-	"type": "module"
-}
