@@ -3,10 +3,10 @@ name: JSDox
 on: workflow_dispatch
 
 jobs:
-	build:
-		runs-on: ubuntu-latest
-		steps:
-			- name: Generate JSDoc documentation
-			uses: brunokrauss/jsdoc-action@3
-			with:
-				jsdoc-path: 'src'
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate JSDoc documentation
+      uses: brunokrauss/jsdoc-action@3
+      with:
+        jsdoc-path: 'src'
