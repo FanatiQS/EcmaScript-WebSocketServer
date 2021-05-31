@@ -1,0 +1,17 @@
+name: JSDoc
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  generate-doc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate JSDoc documentation
+        uses: brunokrauss/jsdoc-action@3
+        with:
+          jsdoc-path: 'src'
