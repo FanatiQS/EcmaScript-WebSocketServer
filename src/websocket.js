@@ -315,7 +315,7 @@ export function makeWebSocketCloseFrame(code, reason) {
 
 	// Adds close code if available
 	if (code != null) {
-		if (code > 4999) throw new Error("Invalid WebSocket close code");
+		if (code > 4999 || code < 0) throw new Error("Invalid WebSocket close code");
 		arr[1] += 2;
 		arr.push(code >> 8, code & 0xFF);
 
