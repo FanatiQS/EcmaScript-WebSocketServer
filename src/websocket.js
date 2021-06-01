@@ -1,6 +1,6 @@
 'use strict';
 
-import { makeHttpResponse } from "./http.js";
+import { makeHttpResponse, makeHttpHeaderResponse } from "./http.js";
 import makeAccept from './sha1b64.js';
 
 /**
