@@ -52,7 +52,7 @@ export function isWebSocketUpgrade(req) {
 	}
 
 	// Spec requires websocket key to be defined
-	if (typeof req.headers['sec-websocket-key'] !== 'string') {
+	if (!req.headers['sec-websocket-key']) {
 		const err = new Error("Missing WebSocket key");
 		err.code = "INVALID_WS_KEY";
 		throw err;
