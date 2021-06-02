@@ -18,23 +18,23 @@ import { isWebSocket } from "./lib/ecmascript-websocketserver.is"
 Documentation for all the functions can be found at https://fanatiqs.github.io/EcmaScript-WebSocketServer/
 
 ## Initialising a WebSocket connection
-Since a WebSocket connection starts of as an HTTP upgrade, we first need to handle an HTTP request. If you are using TCP data, you first needs to parsed the HTTP request with either the function `parseHttp` from this librar or some other HTTP parser. If you are getting data from another HTTP parser, make sure the request object is structured the same way as the `HttpRequest` Type in this library. The function and type definition is located in the `http.js' file and more details can be found in the documentation.
+Since a WebSocket connection starts of as an HTTP upgrade, you first need to handle an HTTP request. If you are using TCP data, you first needs to parsed the HTTP request with either the function `parseHttp` from this librar or some other HTTP parser. If you are getting data from another HTTP parser, make sure the request object is structured the same way as the `HttpRequest` Type in this library. The function and type definition is located in the `http.js` file and more details can be found in the documentation.
 
 If you want to limit connection to same origin only, use the `isSameOrigin` function to help with that. More info in documentation.
 
-Before upgrading an HTTP socket to WebSocket, we need to know if the request is a WebSocket upgrade or not. This is done with the function `isWebSocketUpgrade`, it checks if the request is an upgrade or not. If the request is not a WebSocket upgrade. You can do whatever you want with it. For TCP sockets, there are functions for creating your own HTTP responses to send back, more info in the next chapter.
+Before upgrading an HTTP socket to WebSocket, you need to know if the request is a WebSocket upgrade or not. This is done with the function `isWebSocketUpgrade`, it checks if the request is an upgrade or not. If the request is not a WebSocket upgrade. You can do whatever you want with it. For TCP sockets, there are functions for creating your own HTTP responses to send back, more info in the next chapter.
 
-If `isWebSocketUpgrade` returned true, you need to send back a response that can be generated with `makeWebSocketUpgradeResponse` and it takes the request object as its argument. This response should be sent to the client and if the TCP socket only takes array buffers, there is a helper function `stringToBuffer` to convert the upgrade response from a string to a buffer. After this response is sent, the client and server must now start using the WebSocket protocol for all further communication.
+If `isWebSocketUpgrade` returned true, you need to send back a response that can be generated with `makeWebSocketUpgradeResponse`. This response should be sent to the client and if the TCP socket only takes array buffers, there is a helper function `stringToBuffer` to convert the upgrade response from a string to a buffer. After this response is sent, the client and server must now use the WebSocket protocol instead of HTTP for all further communication.
 
 ## Make non-WebSocket HTTP response
-For TCP sockets, there are function for making HTTP responses.
-* If you want to use an http status code that does not exist in `httpStatusCodes`, you should it yourself so the response gets a reason text.
+For TCP sockets, there are functions for making HTTP responses. More details about these functions can be found in the documentation.
+* If you want to use an http status code that does not exist in `httpStatusCodes`, you should add it yourself so the response gets a reason text.
 * If your TCP socket can only write array buffers back, `stringToBuffer` can convert the HTTP response string to an array buffer.
-* `makeHttpHtmlResponse` takes an HTML string and puts it in an HTTP response. By default, it uses status code 200 OK but it can be customised with the second argument ().
-* `makeHttpHeaderResponse` takes an HTTP status code and an object of headers. An HTTP body can be concatenated on to the returned string as long as the appropriate headers are set.
+* `makeHttpHtmlResponse` takes an HTML string and puts it in an HTTP response. By default, it uses status code 200 OK but it can be customised with the second argument.
+* `makeHttpHeaderResponse` takes an HTTP status code and an object of headers.
 
 ## Parsing incoming WebSocket data
-To parse the WebSocket data, we start by getting the opCode with the function `getWebSocketOpCode` with the buffer from the TCP socket as the argument. This function returns the opCode (all opCodes used can be found in `opCodes`) or throws if the WebSocket frame has malformed or used unsupported features. [Add more information about getting HTTP response for errors here].
+To parse the WebSocket data, we start by getting the opCode with the function `getWebSocketOpCode` from the TCP buffer. More info about the function and how to handle its return values can be found in the documentation.
 
 ### Close
 For close frames, there is one things the server MUST do. If the close was initiated by the client (the server did not send a close frame), the server MUST send a close frame back to the client. If the close frame is a response to a server initiated close, the server should close the TCP socket.
