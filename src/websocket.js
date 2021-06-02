@@ -79,7 +79,7 @@ export function isWebSocketUpgrade(req) {
  * Makes an HTTP response indicating the WebSocket upgrade request has failed.
  * @function makeFailedHttpUpgradeResponse
  * @param {Error} err An error from [isWebSocketUpgrade]{@link module:WebSocket~isWebSocketUpgrade} call
- * @returns {string} An HTTP response for the error that occured
+ * @returns {string} An HTTP response for the error that occured. The function [stringToBuffer]{@link module:http~stringToBuffer} can be used to convert the string result to a Uint8Array.
  * @throws Error is not from [isWebSocketUpgrade]{@link module:WebSocket~isWebSocketUpgrade} call
  */
 export function makeFailedHttpUpgradeResponse(err) {
@@ -97,7 +97,7 @@ export function makeFailedHttpUpgradeResponse(err) {
  * Makes an HTTP response indicating the connection has successfully been upgraded to use the WebSocket protocol.
  * @function makeWebSocketUpgradeResponse
  * @param {HttpRequest} req The HTTP request that was confirmed to be an upgraded to the WebSocket protocol by [isWebSocketUpgrade]{@link module:WebSocket~isWebSocketUpgrade}
- * @returns {string} The HTTP response to upgrade the client to use the WebSocket protocol
+ * @returns {string} The HTTP response to upgrade the client to use the WebSocket protocol. The function [stringToBuffer]{@link module:http~stringToBuffer} can be used to convert the string result to a Uint8Array.
  */
 export function makeWebSocketUpgradeResponse(req) {
 	return "HTTP/1.1 101 Switching Protocols\r\n" +
