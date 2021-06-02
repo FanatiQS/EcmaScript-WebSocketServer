@@ -113,10 +113,12 @@ export function makeWebSocketUpgradeResponse(req) {
 
 /**
  * Gets the WebSocket op code from a buffer. If it is a Websocket frame, the value is going to match one of the opCodes in [opCodes]{@link module:WebSocket~opCodes}. Read more for the specific opCodes on how handle them.
+ * <br><br>
+ * If an error is thrown, it should include a closeCode that can be used with [makeWebSocketCloseFrame]{@link module:WebSocket~makeWebSocketCloseFrame} to close the socket.
  * @function getWebSocketOpCode
  * @param {ArrayBuffer} buffer The WebSocket buffer received from a client
  * @returns {number} The opCode for the WebSocket frame
- * @throws Is a fragmented frame (not supported right now)
+ * @throws Is a fragmented frame (fragmented frames are not supported right now)
  * @throws Has one or more reserved bits set
  * @throws Payload is not masked
  * @throws Control frame has message longer than 125
