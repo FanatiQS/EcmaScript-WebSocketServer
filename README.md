@@ -4,12 +4,25 @@ This is a low level WebSocket and HTTP server side library built using only Ecma
 # Usage
 To use this library, there needs to be some kind of socket server available for javascript. It can work with TCP sockets or HTTP sockets that have access to the underlying TCP socket.
 
+## Install
+This library does not rely on any package manager. To install it, clone the repo into some directory for your external libraries.
+```sh
+git clone insert-clone-path-here
+```
+To access the library, just import the file you are interested in by using its path.
+```javascript
+import { isWebSocket } from "./lib/ecmascript-websocketserver.is"
+```
+
+## Documentation
+Documentation for all the functions can be found at https://fanatiqs.github.io/EcmaScript-WebSocketServer/
+
 ## Initialising a WebSocket connection
-Since a WebSocket connection starts of as an HTTP upgrade, we first need to handle an HTTP request. If you are using TCP data, you first needs to parsed the HTTP request with the function `parseHttp`. That function takes an array buffer as its argument. Technically anything in this library requiring a buffer as its argument can be anything iterable containing the character codes, but a Uint8Array is the most appropriate type. It returns a request object that contains the method, url, http version and headers. If you are getting data from an HTTP server, make sure the data is structured the same way as the request object from `parseHttp`.
+Since a WebSocket connection starts of as an HTTP upgrade, we first need to handle an HTTP request. If you are using TCP data, you first needs to parsed the HTTP request with either the function `parseHttp` from this librar or some other HTTP parser. If you are getting data from another HTTP parser, make sure the request object is structured the same way as the `HttpRequest` Type in this library. The function and type definition is located in the `http.js' file and more details can be found in the documentation.
 
-If you want to limit connection to same origin only, there is a function to help with that. `isSameOrigin` takes 2 arguments, the request and the current origin. It returns a boolean if the origin is the same.
+If you want to limit connection to same origin only, use the `isSameOrigin` function to help with that. More info in documentation.
 
-After this we have to check if the request is a WebSocket upgrade. This is done with the function `isWebSocketUpgrade`, it takes the request object as its arguments and returns a boolean if the request is an upgrade or not. If the request is an upgrade but does not conform to the WebSocket upgrade requirements, it will throw an error. [Add more information about getting HTTP response for errors here]. If the request is not a WebSocket upgrade. You can do whatever you want with it. For TCP sockets, there are functions for creating your own HTTP responses to send back, more info in the next chapter.
+Before upgrading an HTTP socket to WebSocket, we need to know if the request is a WebSocket upgrade or not. This is done with the function `isWebSocketUpgrade`, it checks if the request is an upgrade or not. If the request is not a WebSocket upgrade. You can do whatever you want with it. For TCP sockets, there are functions for creating your own HTTP responses to send back, more info in the next chapter.
 
 If `isWebSocketUpgrade` returned true, you need to send back a response that can be generated with `makeWebSocketUpgradeResponse` and it takes the request object as its argument. This response should be sent to the client and if the TCP socket only takes array buffers, there is a helper function `stringToBuffer` to convert the upgrade response from a string to a buffer. After this response is sent, the client and server must now start using the WebSocket protocol for all further communication.
 
