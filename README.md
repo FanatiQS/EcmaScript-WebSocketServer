@@ -4,7 +4,7 @@ This is a low level WebSocket and HTTP server side library built using only Ecma
 # Usage
 To use this library, there needs to be some kind of socket server available for javascript. It can work with TCP sockets or HTTP sockets that have access to the underlying TCP socket.
 
-## Initializing a WebSocket connection
+## Initialising a WebSocket connection
 Since a WebSocket connection starts of as an HTTP upgrade, we first need to handle an HTTP request. If you are using TCP data, you first needs to parsed the HTTP request with the function `parseHttp`. That function takes an array buffer as its argument. Technically anything in this library requiring a buffer as its argument can be anything iterable containing the character codes, but a Uint8Array is the most appropriate type. It returns a request object that contains the method, url, http version and headers. If you are getting data from an HTTP server, make sure the data is structured the same way as the request object from `parseHttp`.
 
 If you want to limit connection to same origin only, there is a function to help with that. `isSameOrigin` takes 2 arguments, the request and the current origin. It returns a boolean if the origin is the same.
@@ -86,6 +86,6 @@ This library uses modified versions of other libraries for Sha1 and Base64. The 
 * Make sure http filtering works (whatever that is, but it was mentioned in the spec)
 * A good way for implementors to be forced to handle control frame correctly and to not send data after socket is closed. This might require a constructor. A constructor approach would be another way of doing it and only using the function should still be valid.
 * Should the server close socket on close frame from client? In spec, it said that the initiating peer closes the socket
-* Add /doc from jsdoc. Would be great to use github actions.
 * Compare length of WebSocket payload and its offset with the actual length of the buffered chunk. They should be the same but might not be. How should errors like this be handled? Let implementor buffer the current chunk until the next?
 * Find a way to get rid of package.json, keep .js file extension and still have nodejs examples work with src files.
+* Add examples to jsDoc
