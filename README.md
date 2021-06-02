@@ -102,3 +102,4 @@ This library uses modified versions of other libraries for Sha1 and Base64. The 
 * Compare length of WebSocket payload and its offset with the actual length of the buffered chunk. They should be the same but might not be. How should errors like this be handled? Let implementor buffer the current chunk until the next?
 * Find a way to get rid of package.json, keep .js file extension and still have nodejs examples work with src files.
 * Add examples to jsDoc
+* Change jsdoc template to a nicer one
