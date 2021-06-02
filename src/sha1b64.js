@@ -5,13 +5,9 @@
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2014-2017
  * @license MIT
- */
-
-/*
+ *
  * and
- */
-
-/**
+ *
  * Base64 encode / decode
  * http://www.webtoolkit.info/
  */
