@@ -62,20 +62,20 @@
 <h2>Documentation</h2>
 <p>Documentation for all the functions can be found at https://fanatiqs.github.io/EcmaScript-WebSocketServer/</p>
 <h2>Initialising a WebSocket connection</h2>
-<p>Since a WebSocket connection starts of as an HTTP upgrade, we first need to handle an HTTP request. If you are using TCP data, you first needs to parsed the HTTP request with either the function <code>parseHttp</code> from this librar or some other HTTP parser. If you are getting data from another HTTP parser, make sure the request object is structured the same way as the <code>HttpRequest</code> Type in this library. The function and type definition is located in the `http.js' file and more details can be found in the documentation.</p>
+<p>Since a WebSocket connection starts of as an HTTP upgrade, you first need to handle an HTTP request. If you are using TCP data, you first needs to parsed the HTTP request with either the function <code>parseHttp</code> from this librar or some other HTTP parser. If you are getting data from another HTTP parser, make sure the request object is structured the same way as the <code>HttpRequest</code> Type in this library. The function and type definition is located in the <code>http.js</code> file and more details can be found in the documentation.</p>
 <p>If you want to limit connection to same origin only, use the <code>isSameOrigin</code> function to help with that. More info in documentation.</p>
-<p>Before upgrading an HTTP socket to WebSocket, we need to know if the request is a WebSocket upgrade or not. This is done with the function <code>isWebSocketUpgrade</code>, it checks if the request is an upgrade or not. If the request is not a WebSocket upgrade. You can do whatever you want with it. For TCP sockets, there are functions for creating your own HTTP responses to send back, more info in the next chapter.</p>
-<p>If <code>isWebSocketUpgrade</code> returned true, you need to send back a response that can be generated with <code>makeWebSocketUpgradeResponse</code> and it takes the request object as its argument. This response should be sent to the client and if the TCP socket only takes array buffers, there is a helper function <code>stringToBuffer</code> to convert the upgrade response from a string to a buffer. After this response is sent, the client and server must now start using the WebSocket protocol for all further communication.</p>
+<p>Before upgrading an HTTP socket to WebSocket, you need to know if the request is a WebSocket upgrade or not. This is done with the function <code>isWebSocketUpgrade</code>, it checks if the request is an upgrade or not. If the request is not a WebSocket upgrade. You can do whatever you want with it. For TCP sockets, there are functions for creating your own HTTP responses to send back, more info in the next chapter.</p>
+<p>If <code>isWebSocketUpgrade</code> returned true, you need to send back a response that can be generated with <code>makeWebSocketUpgradeResponse</code>. This response should be sent to the client and if the TCP socket only takes array buffers, there is a helper function <code>stringToBuffer</code> to convert the upgrade response from a string to a buffer. After this response is sent, the client and server must now use the WebSocket protocol instead of HTTP for all further communication.</p>
 <h2>Make non-WebSocket HTTP response</h2>
-<p>For TCP sockets, there are function for making HTTP responses.</p>
+<p>For TCP sockets, there are functions for making HTTP responses. More details about these functions can be found in the documentation.</p>
 <ul>
-<li>If you want to use an http status code that does not exist in <code>httpStatusCodes</code>, you should it yourself so the response gets a reason text.</li>
+<li>If you want to use an http status code that does not exist in <code>httpStatusCodes</code>, you should add it yourself so the response gets a reason text.</li>
 <li>If your TCP socket can only write array buffers back, <code>stringToBuffer</code> can convert the HTTP response string to an array buffer.</li>
-<li><code>makeHttpHtmlResponse</code> takes an HTML string and puts it in an HTTP response. By default, it uses status code 200 OK but it can be customised with the second argument ().</li>
-<li><code>makeHttpHeaderResponse</code> takes an HTTP status code and an object of headers. An HTTP body can be concatenated on to the returned string as long as the appropriate headers are set.</li>
+<li><code>makeHttpHtmlResponse</code> takes an HTML string and puts it in an HTTP response. By default, it uses status code 200 OK but it can be customised with the second argument.</li>
+<li><code>makeHttpHeaderResponse</code> takes an HTTP status code and an object of headers.</li>
 </ul>
 <h2>Parsing incoming WebSocket data</h2>
-<p>To parse the WebSocket data, we start by getting the opCode with the function <code>getWebSocketOpCode</code> with the buffer from the TCP socket as the argument. This function returns the opCode (all opCodes used can be found in <code>opCodes</code>) or throws if the WebSocket frame has malformed or used unsupported features. [Add more information about getting HTTP response for errors here].</p>
+<p>To parse the WebSocket data, we start by getting the opCode with the function <code>getWebSocketOpCode</code> from the TCP buffer. More info about the function and how to handle its return values can be found in the documentation.</p>
 <h3>Close</h3>
 <p>For close frames, there is one things the server MUST do. If the close was initiated by the client (the server did not send a close frame), the server MUST send a close frame back to the client. If the close frame is a response to a server initiated close, the server should close the TCP socket.</p>
 <h3>Ping</h3>
@@ -125,6 +125,7 @@
 <li>Compare length of WebSocket payload and its offset with the actual length of the buffered chunk. They should be the same but might not be. How should errors like this be handled? Let implementor buffer the current chunk until the next?</li>
 <li>Find a way to get rid of package.json, keep .js file extension and still have nodejs examples work with src files.</li>
 <li>Add examples to jsDoc</li>
+<li>Change jsdoc template to a nicer one</li>
 </ul></article>
     </section>
 
@@ -138,7 +139,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Jun 02 2021 10:26:46 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Jun 02 2021 10:48:18 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
