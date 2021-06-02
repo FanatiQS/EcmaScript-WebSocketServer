@@ -347,7 +347,7 @@ To construct WebSocket frames, look at <a href="module-WebSocket.html#~makeWebSo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line157">line 157</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line159">line 159</a>
     </li></ul></dd>
     
 
@@ -421,7 +421,7 @@ To construct WebSocket frames, look at <a href="module-WebSocket.html#~makeWebSo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line220">line 220</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -581,7 +581,7 @@ To construct WebSocket frames, look at <a href="module-WebSocket.html#~makeWebSo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line237">line 237</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line239">line 239</a>
     </li></ul></dd>
     
 
@@ -744,7 +744,7 @@ To construct WebSocket frames, look at <a href="module-WebSocket.html#~makeWebSo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line248">line 248</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -869,6 +869,8 @@ To construct WebSocket frames, look at <a href="module-WebSocket.html#~makeWebSo
 
 <div class="description">
     Gets the WebSocket op code from a buffer. If it is a Websocket frame, the value is going to match one of the opCodes in <a href="module-WebSocket.html#~opCodes">opCodes</a>. Read more for the specific opCodes on how handle them.
+<br><br>
+If an error is thrown, it should include a closeCode that can be used with <a href="module-WebSocket.html#~makeWebSocketCloseFrame">makeWebSocketCloseFrame</a> to close the socket.
 </div>
 
 
@@ -992,7 +994,7 @@ To construct WebSocket frames, look at <a href="module-WebSocket.html#~makeWebSo
 
     <div class="param-desc">
     
-        Is a fragmented frame (not supported right now)
+        Is a fragmented frame (fragmented frames are not supported right now)
     
     </div>
 
@@ -1109,7 +1111,7 @@ To construct WebSocket frames, look at <a href="module-WebSocket.html#~makeWebSo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line203">line 203</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -1655,7 +1657,7 @@ If an error is thrown, the function <a href="module-WebSocket.html#~makeFailedHt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line289">line 289</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line291">line 291</a>
     </li></ul></dd>
     
 
@@ -1830,7 +1832,7 @@ If an error is thrown, the function <a href="module-WebSocket.html#~makeFailedHt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line304">line 304</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line306">line 306</a>
     </li></ul></dd>
     
 
@@ -2063,7 +2065,7 @@ If an error is thrown, the function <a href="module-WebSocket.html#~makeFailedHt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line340">line 340</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line342">line 342</a>
     </li></ul></dd>
     
 
@@ -2178,7 +2180,7 @@ If an error is thrown, the function <a href="module-WebSocket.html#~makeFailedHt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line350">line 350</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line352">line 352</a>
     </li></ul></dd>
     
 
@@ -2338,7 +2340,7 @@ If an error is thrown, the function <a href="module-WebSocket.html#~makeFailedHt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line274">line 274</a>
+        <a href="websocket.js.html">websocket.js</a>, <a href="websocket.js.html#line276">line 276</a>
     </li></ul></dd>
     
 
@@ -2642,7 +2644,7 @@ If an error is thrown, the function <a href="module-WebSocket.html#~makeFailedHt
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Jun 02 2021 12:02:37 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Jun 02 2021 12:12:03 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
