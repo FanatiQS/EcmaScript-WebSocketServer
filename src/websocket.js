@@ -11,6 +11,8 @@
 import { makeHttpResponse, makeHttpHeaderResponse } from "./http.js";
 import makeAccept from './sha1b64.js';
 
+
+
 /**
  * Checks if HTTP request is a WebSocket upgrade.
  * <br><br>
@@ -31,13 +33,13 @@ export function isWebSocketUpgrade(req) {
 	// Retuns false for non websocket upgrades
 	if (
 		typeof req.headers.connection !== 'string' ||
-		req.headers.connection.toLowerCase() !== 'upgrade'
+		req.headers.connection.toLowerCase().trim() !== 'upgrade'
 	) return false;
 
 	// Only accepts upgrade to WebSocket
 	if (
 		typeof req.headers.upgrade !== 'string' ||
-		req.headers.upgrade.toLowerCase() !== 'websocket'
+		req.headers.upgrade.toLowerCase().trim() !== 'websocket'
 	) {
 		const err = new Error("This WebSocket implementation can not handle HTTP upgrades to anything other than the WebSocket protocol");
 		err.code = "INVALID_WS_UPGR";
@@ -45,7 +47,7 @@ export function isWebSocketUpgrade(req) {
 	}
 
 	// Spec only allows GET requests for upgrade
-	if (typeof req.method !== 'string' || req.method.toLowerCase() !== 'get') {
+	if (typeof req.method !== 'string' || req.method.toUpperCase().trim() !== 'GET') {
 		const err = new Error("WebSocket upgrades must be GET requests");
 		err.code = "INVALID_METHOD";
 		throw err;
