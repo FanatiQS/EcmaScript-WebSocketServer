@@ -113,6 +113,8 @@ export function makeWebSocketUpgradeResponse(req) {
 		"\r\n\r\n";
 }
 
+
+
 /**
  * Gets the WebSocket op code from a buffer. If it is a Websocket frame, the value is going to match one of the opCodes in [opCodes]{@link module:WebSocket~opCodes}. Read more for the specific opCodes on how handle them.
  * <br><br>
