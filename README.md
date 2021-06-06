@@ -11,7 +11,7 @@ git clone insert-clone-path-here
 ```
 To access the library, just import the file you are interested in by using its path.
 ```javascript
-import { isWebSocket } from "./lib/ecmascript-websocketserver.is"
+import { isWebSocket } from "./lib/ecmascript-websocketserver.js"
 ```
 
 ## Documentation
