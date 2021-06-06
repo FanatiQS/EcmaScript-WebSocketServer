@@ -83,7 +83,7 @@ The WebSocket protocol is built to be extended with extra functions. This is not
 ## WebSocket subprotocols
 During the WebSocket handshake, the client and the server can agree on a specific subprotocol to use. This is not supported in this library and is currently not under consideration. If it is a feature you want, open an issue on Github.
 ## Payload length of 4 294 967 296 or longer
-The WebSocket protocol supports payload lengths up to 64 bit values. Unfortunately, javascript clamps its values to 32 bit when doing bit shifting, so the maximum length for payload in this library is 32 bit (4 294 967 296)
+The WebSocket protocol supports payload lengths up to 64 bit values. Unfortunately, javascript clamps its values to 32 bit when doing bit shifting, so the maximum length for payload in this library is 32 bit (4 294 967 296). This feature is probably not going to be implemented, mainly because NodeJS crashed when trying to create a string of current max length and if successful, the memory for the string alone would be around 8GB since javascript stores its strings as UTF16.
 ## Ping frame payload
 Ping frames can currently not be created with a payload. This is mainly because I don't know how it would be used and for what. If it is a feature you want, open an issue on Github.
 
