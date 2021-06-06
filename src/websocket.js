@@ -324,7 +324,7 @@ export function makeWebSocketCloseFrame(code, reason) {
 		arr.push(code >> 8, code & 0xFF);
 
 		// Adds close reason if available
-		if (!reason) {
+		if (reason) {
 			if (reason.length > 123) throw new Error("WebSocket close reason too long");
 			const len = reason.length;
 			arr[1] += len;
