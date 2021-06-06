@@ -261,7 +261,7 @@ export function getWebSocketCloseReason(buffer) {
 	for (let i = 2; i < len; i++) {
 		unmasked += String.fromCharCode(buffer[i + 6] ^ buffer[i % 4 + 2]);
 	}
-	return unmasked;
+	return unmasked || undefined;
 }
 
 
