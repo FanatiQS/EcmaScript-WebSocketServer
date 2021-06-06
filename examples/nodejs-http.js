@@ -116,8 +116,17 @@ server.on('upgrade', (req, socket) => {
 				socket.write(makeWebSocketPingResponse(data));
 				break;
 			}
+
+			// Does not support fragmented frames
+			case opCode.bufferText:
+			case opCode.bufferBinary:
+			case opCode.bufferContinue:
+			case opCode.bufferEnd: {
+				socket.write(makeWebSocketCloseFrame(1003));
+				throw new Error('This WebSocket implementation does not support fragmented frames');
+			}
 			default: {
-				console.log(data);
+				throw new Error("Unknown opCode:", opCode);
 			}
 		}
 	});

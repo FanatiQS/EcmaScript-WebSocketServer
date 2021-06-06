@@ -51,6 +51,9 @@ This is a text frame and the content can be extracted using the `getWebSocketTex
 ### Binary
 This is a binary frame and the content can be extracted using the `getWebSocketBinaryPayload` function.
 
+### Fragmented frames
+Fragmented frames have 4 opCodes: `fragmentedText`, `fragmentedBinary`, `fragmentedContinue` and `fragmentedEnd`. Buffering is not handled by the library and needs to be implemented separately. More info in documentation.
+
 ## Sending WebSocket data
 
 ### Close
@@ -76,8 +79,6 @@ Throws error if contents length is 32 bit or longer
 # Not supported WebSocket features
 ## HTTP stream
 Currently, the HTTP parser only works with the entire HTTP request in the buffer in one shot. There is no support for getting the HTTP request in multiple TCP packets. This is a feature I would like to get working
-## Fragmented WebSocket frames
-WebSocket frames can be fragmented and split into multiple frames. This feature is not supported in this library and is currently not under consideration. If it is a feature you want, open an issue on Github.
 ## WebSocket extensions
 The WebSocket protocol is built to be extended with extra functions. This is not supported in this library and is currently not under consideration. If it is a feature you want, open an issue on Github.
 ## WebSocket subprotocols
