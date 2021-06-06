@@ -1,6 +1,9 @@
 # EcmaScript WebSocket and HTTP Server
 This is a low level WebSocket and HTTP server side library built using only EcmaScript 2015 features. While there are more fully featured WebSocket servers built specifically for their environments, this library aims to make a WebSocket server that can be implemented anywhere there is javascript with access to a TCP server. This makes it a lot easier to port from one environment to another or to use with a javascript runtime in your own application (only needing to add TCP bindings).
 
+# Help
+This library needs a lot of tests written. If you want to help testing the code by writing tests, listing tests that need to be written or any other kind of help. Please head over to the pinned [issue](https://github.com/FanatiQS/EcmaScript-WebSocketServer/issues/2) on Github.
+
 # Usage
 To use this library, there needs to be some kind of socket server available for javascript. It can work with TCP sockets or HTTP sockets that have access to the underlying TCP socket.
 
