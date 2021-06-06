@@ -169,13 +169,6 @@ export function makeWebSocketUpgradeResponse(req) {
  * @throws Control frame has message longer than 125
  */
 export function getWebSocketOpCode(buffer) {
-	// Does not support fragmented frames
-	if (!(buffer[0] &amp; 0x80)) {
-		const err = new Error('This WebSocket implementation does not support fragmented frames');
-		err.closeCode = 1003;
-		throw err;
-	}
-
 	// WebSocket rsv bits should be 0 when not used by extension
 	if (buffer[0] &amp; 0x70) {
 		const err = new Error('Reserved bits are not used and must be 0');
@@ -190,15 +183,25 @@ export function getWebSocketOpCode(buffer) {
 		throw err;
 	}
 
-	// Ensures control frame has a length under 126
-	if (buffer[0] &amp; 0x08 &amp;&amp; (buffer[1] &amp; 0x7F) > 125) {
-		const err = new Error("WebSocket control frame can not have payload lengths longer than 125");
-		err.closeCode = 1002;
-		throw err;
+	// Validates control frames
+	if (buffer[0] &amp; 0x08) {
+		// Ensures control frames are not fragmented
+		if (!(buffer[0] &amp; 0x80)) {
+			const err = new Error("WebSocket control frames can not be fragmented");
+			err.closeCode = 1002;
+			throw err;
+		}
+
+		// Ensures control frames has a length under 126
+		if ((buffer[1] &amp; 0x7F) > 125) {
+			const err = new Error("WebSocket control frames can not have payload lengths longer than 125");
+			err.closeCode = 1002;
+			throw err;
+		}
 	}
 
 	// Returns op code
-	return buffer[0] &amp; 0x0F;
+	return buffer[0];
 }
 
 /**
@@ -211,17 +214,25 @@ export function getWebSocketOpCode(buffer) {
  * @property {number} close The opCode for a WebSocket close frame. Get the close code by calling [getWebSocketCloseCode]{@link module:WebSocket~getWebSocketCloseCode}. Get the close reason by calling [getWebSocketCloseReason]{@link module:WebSocket~getWebSocketCloseReason}. If the WebSocket server did not initiate the closing handshake, the server MUST answer the client with a close frame back. A close frame can be created by calling [makeWebSocketCloseFrame]{@link module:WebSocket~makeWebSocketCloseFrame}.
  * @property {number} ping The opCode for a WebSocket ping frame. The WebSocket MUST answer ping frames with a pong response that can be created by calling [makeWebSocketPingResponse]{@link module:WebSocket~makeWebSocketPingResponse} with the ping buffer. If ping frame contains a payload, it can be extracted by using the same functions for getting payload from text or binary frames.
  * @property {number} pong The opCode for a WebSocket pong frame. If pong frame contains a payload, it can be extracted by using the same functions for getting payload from text or binary frames.
+ *
+ * @property {number} fragmentedText The opCode for a WebSocket text frame that is not the last for the message. Get the text content by calling [getWebSocketTextPayload]{@link module:WebSocket~getWebSocketTextPayload} and buffer it until getting a {@linkcode fragmentedEnd}. If a {@linkcode fragmentedText} or {@linkcode fragmentedBinary} has already been received without getting a {@linkcode fragmentedEnd}, an error should be thrown.
+ * @property {number} fragmentedBinary The opCode for a WebSocket binary frame that is not the last for the message. Get the binary content by calling [getWebSocketBinaryPayload]{@link module:WebSocket~getWebSocketBinaryPayload} and buffer it until getting a {@linkcode fragmentedEnd}. If a {@linkcode fragmentedText} or {@linkcode fragmentedBinary} has already been received without getting a {@linkcode fragmentedEnd}, an error should be thrown.
+ * @property {number} fragmentedContinue The opCode for a WebSocket frame continuing on a buffered message and is not the last for the message. Call [getWebSocketTextPayload]{@link module:WebSocket~getWebSocketTextPayload} or [getWebSocketBinaryPayload]{@link module:WebSocket~getWebSocketBinaryPayload} to get content and add it to the buffer. If a {@linkcode fragmentedText} or {@linkcode fragmentedBinary} has not been received before getting this opCode, an error should be thrown.
+ * @property {number} fragmentedEnd The opCode for a WebSocket frame continuing on a buffered message and is the last buffer for the message. Call [getWebSocketTextPayload]{@link module:WebSocket~getWebSocketTextPayload} or [getWebSocketBinaryPayload]{@link module:WebSocket~getWebSocketBinaryPayload} to get content and add it to the buffer. If a {@linkcode fragmentedText} or {@linkcode fragmentedBinary} has not been received before getting this opCode, an error should be thrown. Since this is the last chunk in the buffered message, the buffer should now be handled the same way a normal {@linkcode opCode.text} or {@linkcode opCode.binary} frame is handled.
  */
 export const opCodes = {
-	text: 0x01,
-	binary: 0x02,
-	close: 0x08,
-	ping: 0x09,
-	pong: 0x0A
+	text: 0x81,
+	binary: 0x82,
+	close: 0x88,
+	ping: 0x89,
+	pong: 0x8A,
+	fragmentedText: 0x01,
+	fragmentedBinary: 0x02,
+	fragmentedContinue: 0x00,
+	fragmentedEnd: 0x80,
 };
 
 // Gets payload length and byte offset from WebSocket frame
-// @todo make sure payload length matches buffer length (offset + 4 + len === buffer.length). If buffer is too short, it should concat next chunk too. But that is compicated without instance.
 function getOffsetAndLen(buffer) {
 	// Gets payload length
 	let len = buffer[1] &amp; 0x7F;
@@ -426,7 +437,7 @@ export function makeWebSocketPingResponse(ping) {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Sun Jun 06 2021 14:07:38 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Sun Jun 06 2021 15:33:54 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
