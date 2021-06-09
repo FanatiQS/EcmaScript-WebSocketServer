@@ -107,3 +107,4 @@ This library uses modified versions of other libraries for Sha1 and Base64. The 
 * Find a way to get rid of package.json, keep .js file extension and still have nodejs examples work with src files.
 * Add examples to jsDoc
 * Change jsdoc template to a nicer one
+* Add git submodule instructions
