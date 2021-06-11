@@ -91,8 +91,8 @@ export function makeFailedHttpUpgradeResponse(err) {
 		case "INVALID_HTTP_VERSION": return makeHttpResponse(400);
 		case "INVALID_WS_VERSION": return makeHttpHeaderResponse(426, { ["Sec-WebSocket-Version"]: 13 });
 		case "INVALID_WS_KEY": return makeHttpResponse(400);
+		default: throw new Error("No Error or invalid error code");
 	}
-	throw new Error("No Error or invalid error code");
 }
 
 /**
