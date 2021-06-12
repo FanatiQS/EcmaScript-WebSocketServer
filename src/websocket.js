@@ -296,7 +296,7 @@ function getLenBytes(len) {
  * @throws Has a payload larger than 32bit
  */
 export function makeWebSocketTextFrame(payload) {
-	const arr = [ 0x80 | opCodes.text, ...getLenBytes(payload.length) ];
+	const arr = [ opCodes.text, ...getLenBytes(payload.length) ];
 	for (let i = 0; i < payload.length; i++) {
 		arr.push(payload.charCodeAt(i));
 	}
@@ -312,7 +312,7 @@ export function makeWebSocketTextFrame(payload) {
  */
 export function makeWebSocketBinaryFrame(payload) {
 	return new Uint8Array([
-		0x80 | opCodes.binary,
+		opCodes.binary,
 		...getLenBytes(payload.length),
 		...payload
 	]);
