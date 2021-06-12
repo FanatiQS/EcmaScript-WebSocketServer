@@ -282,9 +282,9 @@ export function getWebSocketCloseReason(buffer) {
 // Creates WebSocket length bytes for payload
 function getLenBytes(len) {
 	if (len < 126) return [ len ];
-	if (len < 65536) return [ 126, (len >> 8) & 0xff, len & 0xff ];
-	if (len < 4294967296) return [ 127, 0, 0, 0, 0,
-		(len >> 24) & 0xff, (len >> 16) & 0xff, (len >> 8) & 0xff, len & 0xff ];
+	if (len < 0xffff) return [ 126, (len >> 8), len & 0xff ];
+	if (len < 0xffffffff) return [ 127, 0, 0, 0, 0,
+		(len >> 24), (len >> 16) & 0xff, (len >> 8) & 0xff, len & 0xff ];
 	throw new Error("Payload length can not be 32 bit or longer");
 }
 
