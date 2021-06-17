@@ -13,8 +13,7 @@ import {
 	makeWebSocketCloseFrame,
 	makeWebSocketPingFrame,
 	makeWebSocketPingResponse
-} = require('../src/index.js');
-from '../src/websocket.js';
+} from '../src/websocket.js';
 
 import http from 'http';
 
